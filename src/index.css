@@ -1,11 +1,57 @@
 @import "tailwindcss";
 
+/*
+  Palette: a warm night celebration.
+  Roles (all pairs verified >= 7:1 on their intended surface):
+    night    canvas
+    night-2  elevated surface (inputs, cards, modal)
+    wine     deep rose atmosphere (glows, borders)
+    rose     secondary text on dark, soft accents
+    gold     primary action, focus, finale
+    cream    primary text
+    cream-2  secondary text (rose-tinted, never gray)
+    ember    error text
+    ink      text on gold
+*/
+@theme {
+  --color-night: #1a0d17;
+  --color-night-2: #2a1424;
+  --color-wine: #6b1e3f;
+  --color-rose: #f2a0b8;
+  --color-gold: #f2c14e;
+  --color-gold-deep: #c8922a;
+  --color-cream: #fbf1e6;
+  --color-cream-2: #d8b9c5;
+  --color-ember: #ffb4a8;
+  --color-ink: #2b1406;
+}
+
 :root {
   color-scheme: dark;
+  accent-color: var(--color-gold);
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-l: env(safe-area-inset-left, 0px);
   --safe-r: env(safe-area-inset-right, 0px);
+}
+
+::selection {
+  background: var(--color-gold);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+input {
+  caret-color: var(--color-gold);
+}
+
+input::placeholder {
+  color: var(--color-cream-2);
+  opacity: 0.7;
 }
 
 html,
@@ -24,9 +70,25 @@ body {
     "Book Antiqua",
     Georgia,
     serif;
-  background: #1a1216;
-  color: #f6efe8;
+  background: var(--color-night);
+  color: var(--color-cream);
   -webkit-tap-highlight-color: transparent;
+}
+
+/* Night-celebration canvas: warm rose glow above, ember glow below. */
+.night-sky {
+  background:
+    radial-gradient(
+      120% 70% at 50% -10%,
+      rgb(107 30 63 / 0.75) 0%,
+      rgb(107 30 63 / 0) 60%
+    ),
+    radial-gradient(
+      80% 50% at 85% 105%,
+      rgb(200 146 42 / 0.28) 0%,
+      rgb(200 146 42 / 0) 60%
+    ),
+    var(--color-night);
 }
 
 button,

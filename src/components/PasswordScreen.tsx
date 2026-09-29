@@ -32,16 +32,15 @@ export function PasswordScreen({ year, onUnlock }: Props) {
   }
 
   return (
-    <div className="screen flex flex-col items-center justify-center bg-[#1a1216]">
+    <div className="screen night-sky flex flex-col items-center justify-center">
       <form
         onSubmit={onSubmit}
-        className="anim-fade w-full max-w-sm space-y-6 text-center"
+        className="anim-fade w-full max-w-sm text-center"
       >
-        <p className="text-xs tracking-[0.35em] text-rose-200/60 uppercase">
-          {year}
-        </p>
-        <h1 className="text-3xl font-medium tracking-wide">Algo te espera</h1>
-        <p className="text-sm text-white/55">
+        <h1 className="text-cream text-3xl font-medium tracking-wide text-balance">
+          Algo te espera
+        </h1>
+        <p className="text-cream-2 mt-3 text-sm">
           Escribe la palabra que ya conoces.
         </p>
         <input
@@ -49,18 +48,27 @@ export function PasswordScreen({ year, onUnlock }: Props) {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-center outline-none focus:border-rose-200/40"
+          className="border-rose/25 bg-night-2 text-cream focus:border-gold mt-8 w-full rounded-2xl border px-4 py-3 text-center outline-none transition-colors focus-visible:outline-0"
           placeholder="Contraseña"
         />
-        {error ? <p className="text-sm text-rose-200/80">{error}</p> : null}
+        <p
+          className="text-ember mt-3 min-h-5 text-sm"
+          role="alert"
+          aria-live="polite"
+        >
+          {error}
+        </p>
         <button
           type="submit"
           disabled={busy || !password}
-          className="w-full rounded-2xl bg-rose-200/90 py-3 text-[#2a1218] disabled:opacity-40"
+          className="bg-gold text-ink hover:bg-gold-deep disabled:bg-night-2 disabled:text-cream-2/60 mt-3 w-full rounded-2xl py-3 font-medium shadow-[0_10px_28px_-10px_rgb(242_193_78/0.55)] transition-colors disabled:shadow-none"
         >
-          {busy ? "…" : "Entrar"}
+          {busy ? "Abriendo…" : "Entrar"}
         </button>
-        <TimezoneNotice />
+        <div className="mt-10">
+          <TimezoneNotice />
+        </div>
+        <p className="text-rose/70 mt-6 text-xs tracking-[0.3em]">{year}</p>
       </form>
     </div>
   );

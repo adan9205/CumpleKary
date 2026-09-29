@@ -88,10 +88,7 @@ export function CountdownScreen({
       style={{ background: stage.gradient }}
     >
       <div className="anim-fade w-full max-w-md text-center">
-        <p className="text-xs tracking-[0.35em] text-white/45 uppercase">
-          {edition.year}
-        </p>
-        <h1 className="mt-3 text-2xl font-medium">Falta poco</h1>
+        <h1 className="text-cream text-3xl font-medium">Falta poco</h1>
         <button
           type="button"
           onClick={onClock}
@@ -106,12 +103,12 @@ export function CountdownScreen({
           ].map(([value, label]) => (
             <div
               key={String(label)}
-              className="rounded-2xl bg-black/20 px-1 py-4 backdrop-blur-sm"
+              className="bg-night/45 ring-rose/15 rounded-2xl px-1 py-4 ring-1"
             >
-              <div className="tick text-3xl tabular-nums sm:text-4xl">
+              <div className="tick text-cream text-3xl tabular-nums sm:text-4xl">
                 {typeof value === "number" ? pad(value) : value}
               </div>
-              <div className="mt-1 text-[10px] tracking-widest text-white/50 uppercase">
+              <div className="text-cream-2 mt-1 text-[10px] tracking-widest uppercase">
                 {label}
               </div>
             </div>
@@ -120,8 +117,11 @@ export function CountdownScreen({
         <div className="mt-12">
           <TimezoneNotice />
         </div>
+        <p className="text-rose/70 mt-6 text-xs tracking-[0.3em]">
+          {edition.year}
+        </p>
         {simulated ? (
-          <p className="mt-4 text-[10px] tracking-widest text-amber-200/70 uppercase">
+          <p className="text-gold mt-4 text-[10px] tracking-widest uppercase">
             modo prueba
           </p>
         ) : null}

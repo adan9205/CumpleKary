@@ -13,9 +13,9 @@ export function CatPeek({ src, visible, caption }: Props) {
       <img
         src={src}
         alt=""
-        className="h-auto w-full rounded-2xl bg-black/20 shadow-lg shadow-black/40"
+        className="bg-night-2 ring-rose/20 h-auto w-full rounded-2xl shadow-[0_10px_24px_-8px_rgb(0_0_0/0.6)] ring-1"
       />
-      <figcaption className="mt-1 text-right text-[10px] text-white/50">
+      <figcaption className="text-cream-2 mt-1 text-right text-[10px]">
         {caption}
       </figcaption>
     </figure>

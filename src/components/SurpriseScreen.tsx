@@ -95,7 +95,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
         particleCount: 80,
         spread: 70,
         origin: { y: 0.7 },
-        colors: ["#f6d6c8", "#f4b8c5", "#fff3d6", "#e8c39e"],
+        colors: ["#f2c14e", "#f2a0b8", "#fbf1e6", "#c8922a", "#6b1e3f"],
       });
     burst();
     const id = window.setInterval(burst, 2200);
@@ -187,22 +187,23 @@ export function SurpriseScreen({ year, surprise }: Props) {
   }
 
   return (
-    <div className="screen relative flex flex-col bg-[linear-gradient(180deg,#1c1216_0%,#2a1820_50%,#1a1216_100%)]">
+    <div className="screen night-sky relative flex flex-col">
       <audio ref={audioRef} src={surprise.songSrc} playsInline preload="none" />
 
       {!started ? (
         <div className="anim-fade flex flex-1 flex-col items-center justify-center text-center">
-          <p className="text-xs tracking-[0.35em] text-rose-200/60 uppercase">
-            {year}
+          <h1 className="text-cream text-4xl text-balance">Ya es el día</h1>
+          <p className="text-cream-2 mt-3 text-sm">
+            Sube el volumen. Empieza con música.
           </p>
-          <h1 className="mt-3 text-3xl">Ya es el día</h1>
           <button
             type="button"
             onClick={openSurprise}
-            className="mt-10 rounded-full bg-rose-200/90 px-8 py-4 text-[#2a1218]"
+            className="bg-gold text-ink hover:bg-gold-deep mt-10 rounded-full px-9 py-4 font-medium shadow-[0_14px_36px_-12px_rgb(242_193_78/0.6)] transition-colors"
           >
             Abrir sorpresa
           </button>
+          <p className="text-rose/70 mt-12 text-xs tracking-[0.3em]">{year}</p>
         </div>
       ) : (
         <div
@@ -224,13 +225,13 @@ export function SurpriseScreen({ year, surprise }: Props) {
               <img
                 src={surprise.photoSrc}
                 alt={surprise.photoAlt}
-                className="anim-fade max-h-[70dvh] w-full rounded-3xl object-cover"
+                className="anim-fade ring-gold/30 max-h-[70dvh] w-full rounded-3xl object-cover shadow-[0_24px_60px_-20px_rgb(107_30_63/0.8)] ring-1"
               />
             ) : null}
 
             {slide.kind === "text" ? (
               <div className="anim-fade relative w-full max-w-lg px-2">
-                <p className="text-center text-lg leading-relaxed text-rose-50/90 sm:text-xl">
+                <p className="text-cream text-center text-lg leading-relaxed text-pretty sm:text-xl">
                   {slide.text}
                 </p>
                 <img
@@ -238,8 +239,8 @@ export function SurpriseScreen({ year, surprise }: Props) {
                   alt=""
                   className={`absolute w-14 opacity-80 sm:w-16 ${
                     index % 2 === 0
-                      ? "-bottom-10 left-0"
-                      : "-top-8 right-0"
+                      ? "-bottom-20 left-0"
+                      : "-top-20 right-0"
                   }`}
                 />
               </div>
@@ -250,9 +251,9 @@ export function SurpriseScreen({ year, surprise }: Props) {
                 <img
                   src={slide.imageSrc}
                   alt=""
-                  className="mx-auto max-h-[50dvh] w-full rounded-3xl object-contain"
+                  className="bg-night-2 ring-gold/25 mx-auto max-h-[50dvh] w-full rounded-3xl object-contain p-2 shadow-[0_20px_50px_-20px_rgb(107_30_63/0.8)] ring-1"
                 />
-                <figcaption className="mt-5 text-sm leading-relaxed text-white/75">
+                <figcaption className="text-cream-2 mt-5 text-sm leading-relaxed text-pretty">
                   {slide.caption}
                 </figcaption>
               </figure>
@@ -281,7 +282,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
                     />
                   </div>
                 ) : (
-                  <p className="rounded-3xl bg-white/5 px-4 py-16 text-center text-sm text-white/55">
+                  <p className="bg-night-2 text-cream-2 border-rose/20 rounded-3xl border px-4 py-16 text-center text-sm">
                     Video de YouTube (pon el id en config/{year}.ts)
                   </p>
                 )}
@@ -290,7 +291,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
 
             {slide.kind === "finale" ? (
               <div className="anim-fade text-center">
-                <p className="text-3xl leading-snug sm:text-4xl">
+                <p className="text-gold text-4xl leading-snug text-balance sm:text-5xl">
                   {surprise.finale}
                 </p>
               </div>
@@ -302,18 +303,18 @@ export function SurpriseScreen({ year, surprise }: Props) {
               type="button"
               onClick={() => go(-1)}
               disabled={index === 0}
-              className="rounded-2xl bg-white/8 px-4 py-3 text-sm disabled:opacity-30"
+              className="border-rose/30 text-cream hover:bg-night-2 disabled:border-rose/10 disabled:text-cream-2/40 rounded-2xl border px-4 py-3 text-sm transition-colors"
             >
               Atrás
             </button>
-            <p className="text-xs text-white/40">
+            <p className="text-cream-2 text-xs tabular-nums">
               {index + 1} / {slides.length}
             </p>
             <button
               type="button"
               onClick={() => go(1)}
               disabled={last}
-              className="rounded-2xl bg-rose-200/90 px-4 py-3 text-sm text-[#2a1218] disabled:opacity-30"
+              className="bg-gold text-ink hover:bg-gold-deep disabled:bg-night-2 disabled:text-cream-2/40 rounded-2xl px-4 py-3 text-sm font-medium shadow-[0_8px_22px_-10px_rgb(242_193_78/0.5)] transition-colors disabled:shadow-none"
             >
               {last ? "Fin" : "Siguiente"}
             </button>

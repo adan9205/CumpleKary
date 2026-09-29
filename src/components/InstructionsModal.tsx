@@ -8,19 +8,24 @@ export function InstructionsModal({ open, onClose }: Props) {
     return null;
   }
   return (
-    <div className="fixed inset-0 z-40 flex items-end justify-center bg-black/55 p-4 sm:items-center">
-      <div className="anim-fade w-full max-w-sm rounded-3xl bg-[#24181c] px-5 py-6 pb-[max(1.5rem,var(--safe-b))] shadow-2xl">
-        <p className="text-xs tracking-[0.3em] text-rose-200/70 uppercase">
+    <div
+      className="fixed inset-0 z-40 flex items-end justify-center bg-[rgb(26_13_23/0.7)] p-4 backdrop-blur-sm sm:items-center"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="instructions-title"
+    >
+      <div className="anim-fade bg-night-2 border-rose/20 w-full max-w-sm rounded-3xl border px-5 py-6 pb-[max(1.5rem,var(--safe-b))] shadow-[0_30px_70px_-20px_rgb(0_0_0/0.7)]">
+        <h2 id="instructions-title" className="text-cream text-lg font-medium">
           Cómo navegar
-        </p>
-        <p className="mt-3 text-sm leading-relaxed text-white/75">
+        </h2>
+        <p className="text-cream-2 mt-2 text-sm leading-relaxed">
           Avanza y retrocede las diapositivas con los botones, deslizando o con
           las flechas del teclado.
         </p>
         <button
           type="button"
           onClick={onClose}
-          className="mt-6 w-full rounded-2xl bg-rose-200/90 py-3 text-[#2a1218]"
+          className="bg-gold text-ink hover:bg-gold-deep mt-6 w-full rounded-2xl py-3 font-medium transition-colors"
         >
           Entendido
         </button>

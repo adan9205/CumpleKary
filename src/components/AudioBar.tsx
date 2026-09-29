@@ -7,13 +7,14 @@ type Props = {
 
 export function AudioBar({ paused, volume, onToggle, onVolume }: Props) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl bg-black/25 px-3 py-2 backdrop-blur-sm">
+    <div className="bg-night-2/80 border-rose/15 flex items-center gap-3 rounded-2xl border px-3 py-2">
       <button
         type="button"
         onClick={onToggle}
-        className="min-w-16 text-sm text-rose-100"
+        className="text-gold min-w-16 text-left text-sm font-medium"
+        aria-pressed={!paused}
       >
-        {paused ? "Play" : "Pausa"}
+        {paused ? "Música" : "Pausa"}
       </button>
       <input
         type="range"
@@ -22,7 +23,7 @@ export function AudioBar({ paused, volume, onToggle, onVolume }: Props) {
         step={0.05}
         value={volume}
         onChange={(e) => onVolume(Number(e.target.value))}
-        className="w-full accent-rose-200"
+        className="accent-gold w-full"
         aria-label="Volumen"
       />
     </div>
