@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Gatito serio">
+  <rect width="160" height="160" rx="28" fill="#2a2430"/>
+  <ellipse cx="80" cy="96" rx="45" ry="37" fill="#e6d3bf"/>
+  <path d="M40 78 L36 38 L68 68 Z" fill="#e6d3bf"/>
+  <path d="M120 78 L124 38 L92 68 Z" fill="#e6d3bf"/>
+  <circle cx="64" cy="94" r="4" fill="#2a1814"/>
+  <circle cx="96" cy="94" r="4" fill="#2a1814"/>
+  <path d="M72 114 H88" stroke="#2a1814" stroke-width="3"/>
+</svg>

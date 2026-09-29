@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Gatito feliz">
+  <rect width="160" height="160" rx="28" fill="#3a2430"/>
+  <ellipse cx="80" cy="96" rx="46" ry="38" fill="#f3c9b4"/>
+  <path d="M40 78 L34 34 L68 68 Z" fill="#f3c9b4"/>
+  <path d="M120 78 L126 34 L92 68 Z" fill="#f3c9b4"/>
+  <path d="M56 92 Q64 86 72 92" fill="none" stroke="#2a1814" stroke-width="3"/>
+  <path d="M88 92 Q96 86 104 92" fill="none" stroke="#2a1814" stroke-width="3"/>
+  <path d="M66 112 Q80 126 94 112" fill="none" stroke="#2a1814" stroke-width="3"/>
+</svg>

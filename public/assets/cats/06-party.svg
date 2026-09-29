@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Gatito de fiesta">
+  <rect width="160" height="160" rx="28" fill="#402430"/>
+  <ellipse cx="80" cy="100" rx="46" ry="36" fill="#f6d0b8"/>
+  <path d="M42 82 L36 40 L70 72 Z" fill="#f6d0b8"/>
+  <path d="M118 82 L124 40 L90 72 Z" fill="#f6d0b8"/>
+  <path d="M56 96 Q64 90 72 96" fill="none" stroke="#2a1814" stroke-width="3"/>
+  <path d="M88 96 Q96 90 104 96" fill="none" stroke="#2a1814" stroke-width="3"/>
+  <path d="M66 116 Q80 128 94 116" fill="none" stroke="#2a1814" stroke-width="3"/>
+  <path d="M80 18 L96 58 L64 58 Z" fill="#f4b8c5"/>
+  <circle cx="28" cy="36" r="4" fill="#fff3d6"/>
+  <circle cx="132" cy="44" r="3.5" fill="#f6d6c8"/>
+</svg>

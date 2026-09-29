@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: dark;
+  --safe-t: env(safe-area-inset-top, 0px);
+  --safe-b: env(safe-area-inset-bottom, 0px);
+  --safe-l: env(safe-area-inset-left, 0px);
+  --safe-r: env(safe-area-inset-right, 0px);
+}
+
+html,
+body,
+#root {
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+body {
+  margin: 0;
+  font-family:
+    "Iowan Old Style",
+    "Palatino Linotype",
+    Palatino,
+    "Book Antiqua",
+    Georgia,
+    serif;
+  background: #1a1216;
+  color: #f6efe8;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes soft-pulse {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes cat-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.anim-fade {
+  animation: fade-up 0.7s ease both;
+}
+
+.anim-cat {
+  animation: cat-in 0.45s ease both;
+}
+
+.tick {
+  animation: soft-pulse 2.4s ease-in-out infinite;
+}
+
+.screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-top: calc(1.25rem + var(--safe-t));
+  padding-bottom: calc(1.25rem + var(--safe-b));
+  padding-left: calc(1.25rem + var(--safe-l));
+  padding-right: calc(1.25rem + var(--safe-r));
+}

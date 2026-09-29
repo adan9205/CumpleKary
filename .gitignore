@@ -1,0 +1,14 @@
+# Deepwire / dwire
+.depwire/
+depwire-output.json
+.serena/cache/
+
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.env.*
+!.env.example
+.vercel
+*.tsbuildinfo

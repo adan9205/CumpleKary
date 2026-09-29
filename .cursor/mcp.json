@@ -1,0 +1,15 @@
+{
+    "mcpServers": {
+      "depwire": {
+        "command": "npx",
+        "args": ["-y", "depwire-cli", "mcp"]
+      }, 
+      "context7": {
+        "command": "npx",
+        "args": ["-y", "@upstash/context7-mcp"]
+      },
+      "context-mode": {
+        "command": "context-mode"
+      }
+    }
+  }

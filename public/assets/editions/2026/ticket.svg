@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" role="img" aria-label="Vale placeholder">
+  <rect width="900" height="420" rx="28" fill="#f6efe8"/>
+  <rect x="18" y="18" width="864" height="384" rx="18" fill="none" stroke="#7a3a2a" stroke-width="4" stroke-dasharray="10 8"/>
+  <text x="450" y="170" text-anchor="middle" fill="#7a3a2a" font-size="42" font-family="Georgia, serif">VALE</text>
+  <text x="450" y="230" text-anchor="middle" fill="#5a3040" font-size="22" font-family="Georgia, serif">sin caducidad</text>
+  <text x="450" y="300" text-anchor="middle" fill="#8a6a60" font-size="16" font-family="Georgia, serif">Reemplaza ticket.svg / ticket.webp</text>
+</svg>

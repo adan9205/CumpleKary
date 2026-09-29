@@ -1,0 +1,11 @@
+target/
+build/
+*.class
+*.war
+*.jar
+WEB-INF/classes/
+WEB-INF/lib/
+.settings/
+bin/
+classes/
+.impeccable/

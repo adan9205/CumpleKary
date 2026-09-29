@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Gatito sonriente">
+  <rect width="160" height="160" rx="28" fill="#32202a"/>
+  <ellipse cx="80" cy="96" rx="46" ry="38" fill="#f0d2be"/>
+  <path d="M40 78 L34 36 L68 68 Z" fill="#f0d2be"/>
+  <path d="M120 78 L126 36 L92 68 Z" fill="#f0d2be"/>
+  <circle cx="64" cy="92" r="4.5" fill="#2a1814"/>
+  <circle cx="96" cy="92" r="4.5" fill="#2a1814"/>
+  <path d="M68 112 Q80 122 92 112" fill="none" stroke="#2a1814" stroke-width="3"/>
+</svg>
