@@ -2,11 +2,15 @@ import type { EditionConfig } from "../config/types.js";
 import type { PublicEdition, SurprisePayload } from "../shared/types.js";
 import { targetUtc } from "./time.js";
 
-export function publicEdition(config: EditionConfig): PublicEdition {
+export function publicEdition(
+  config: EditionConfig,
+  zone: string = config.timeZone,
+): PublicEdition {
   return {
     year: config.year,
     title: config.title,
-    targetUtc: targetUtc(config).toISO() ?? "",
+    targetUtc: targetUtc(config, zone).toISO() ?? "",
+    timeZone: zone,
     timeZoneOfficial: config.timeZone,
     stages: config.stages,
   };

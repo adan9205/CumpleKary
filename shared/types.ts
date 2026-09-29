@@ -16,6 +16,8 @@ export type PublicEdition = {
   year: number;
   title: string;
   targetUtc: string;
+  /** IANA zone used to interpret targetDate + targetTime. */
+  timeZone: string;
   timeZoneOfficial: string;
   stages: CountdownStage[];
 };

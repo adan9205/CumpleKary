@@ -4,7 +4,7 @@ import { getEdition } from "../config/index.js";
 import { methodNotAllowed, parseYear, send } from "../server/http.js";
 import { publicEdition, surprisePayload } from "../server/payload.js";
 import { debugAuthorized, readEditionSession } from "../server/session.js";
-import { isUnlocked, parseDebugNow } from "../server/time.js";
+import { isUnlocked, parseDebugNow, resolveViewerZone } from "../server/time.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
@@ -43,8 +43,9 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     simulated = true;
   }
 
-  const edition = publicEdition(config);
-  if (!isUnlocked(config, now)) {
+  const zone = resolveViewerZone(req.query.tz, config.timeZone);
+  const edition = publicEdition(config, zone);
+  if (!isUnlocked(config, now, zone)) {
     send(res, 200, {
       ok: true,
       phase: "countdown",

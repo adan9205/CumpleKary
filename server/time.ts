@@ -1,10 +1,30 @@
-import { DateTime } from "luxon";
+import { DateTime, IANAZone } from "luxon";
 import type { EditionConfig } from "../config/types.js";
 import type { CountdownStage } from "../shared/types.js";
 
-export function targetUtc(config: EditionConfig): DateTime {
+export function resolveViewerZone(
+  raw: unknown,
+  fallback: string,
+): string {
+  if (typeof raw !== "string") {
+    return fallback;
+  }
+  const zone = raw.trim();
+  if (!zone || zone === "unknown" || zone.length > 80) {
+    return fallback;
+  }
+  if (!IANAZone.isValidZone(zone)) {
+    return fallback;
+  }
+  return zone;
+}
+
+export function targetUtc(
+  config: EditionConfig,
+  zone: string = config.timeZone,
+): DateTime {
   const [hours, minutes, seconds] = config.targetTime.split(":").map(Number);
-  const date = DateTime.fromISO(config.targetDate, { zone: config.timeZone });
+  const date = DateTime.fromISO(config.targetDate, { zone });
   if (!date.isValid) {
     throw new Error(`Invalid targetDate for ${config.year}`);
   }
@@ -32,8 +52,9 @@ export function parseDebugNow(raw: unknown): DateTime | null {
 export function stageFor(
   config: EditionConfig,
   nowUtc: DateTime,
+  zone: string = config.timeZone,
 ): CountdownStage {
-  const target = targetUtc(config);
+  const target = targetUtc(config, zone);
   const days = Math.max(
     0,
     Math.ceil(target.diff(nowUtc, "days").days),
@@ -49,6 +70,10 @@ export function stageFor(
   return ordered[ordered.length - 1] ?? config.stages[0];
 }
 
-export function isUnlocked(config: EditionConfig, nowUtc: DateTime): boolean {
-  return nowUtc >= targetUtc(config);
+export function isUnlocked(
+  config: EditionConfig,
+  nowUtc: DateTime,
+  zone: string = config.timeZone,
+): boolean {
+  return nowUtc >= targetUtc(config, zone);
 }

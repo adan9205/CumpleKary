@@ -115,7 +115,7 @@ export function CountdownScreen({
           ))}
         </button>
         <div className="mt-12">
-          <TimezoneNotice />
+          <TimezoneNotice timeZone={edition.timeZone} />
         </div>
         <p className="text-rose/70 mt-6 text-xs tracking-[0.3em]">
           {edition.year}

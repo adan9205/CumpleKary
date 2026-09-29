@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from "react";
+import { viewerTimeZone } from "../lib/api";
 import { TimezoneNotice } from "./TimezoneNotice";
 
 type Props = {
@@ -66,7 +67,7 @@ export function PasswordScreen({ year, onUnlock }: Props) {
           {busy ? "Abriendo…" : "Entrar"}
         </button>
         <div className="mt-10">
-          <TimezoneNotice />
+          <TimezoneNotice timeZone={viewerTimeZone()} />
         </div>
         <p className="text-rose/70 mt-6 text-xs tracking-[0.3em]">{year}</p>
       </form>

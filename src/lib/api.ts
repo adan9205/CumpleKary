@@ -57,7 +57,10 @@ export async function fetchEdition(
   debug?: string | null,
   key?: string | null,
 ) {
-  const params = new URLSearchParams({ year: String(year) });
+  const params = new URLSearchParams({
+    year: String(year),
+    tz: viewerTimeZone(),
+  });
   if (debug) {
     params.set("debug", debug);
   }
