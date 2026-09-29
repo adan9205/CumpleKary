@@ -7,6 +7,8 @@ import { TimezoneNotice } from "./TimezoneNotice";
 type Props = {
   edition: PublicEdition;
   simulated: boolean;
+  /** Server "now" (UTC ISO) at fetch time. Countdown ticks from here. */
+  nowUtc: string;
   onReached: () => void;
 };
 
@@ -17,17 +19,29 @@ function caption(days: number): string {
   return `faltan ${days} días`;
 }
 
-export function CountdownScreen({ edition, simulated, onReached }: Props) {
-  const [now, setNow] = useState(() => Date.now());
+export function CountdownScreen({
+  edition,
+  simulated,
+  nowUtc,
+  onReached,
+}: Props) {
+  // Offset between server "now" and local clock. Non-zero when simulated
+  // (or when the device clock drifts). Countdown always follows the server.
+  const offset = useMemo(() => {
+    const server = Date.parse(nowUtc);
+    return Number.isFinite(server) ? server - Date.now() : 0;
+  }, [nowUtc]);
+  const [now, setNow] = useState(() => Date.now() + offset);
   const [peek, setPeek] = useState(false);
 
   const remain = useMemo(() => remaining(edition.targetUtc, now), [edition.targetUtc, now]);
   const stage = useMemo(() => stageNow(edition, remain), [edition, remain]);
 
   useEffect(() => {
-    const id = window.setInterval(() => setNow(Date.now()), 250);
+    setNow(Date.now() + offset);
+    const id = window.setInterval(() => setNow(Date.now() + offset), 250);
     return () => window.clearInterval(id);
-  }, []);
+  }, [offset]);
 
   const reachedRef = useRef(false);
   useEffect(() => {

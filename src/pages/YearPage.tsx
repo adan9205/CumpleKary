@@ -24,10 +24,13 @@ export function YearPage() {
   const [edition, setEdition] = useState<EditionResponse | null>(null);
   const [error, setError] = useState("");
 
-  const loadEdition = useCallback(async () => {
-    const data = await fetchEdition(year, debug, key);
-    setEdition(data);
-  }, [year, debug, key]);
+  const loadEdition = useCallback(
+    async (debugOverride?: string) => {
+      const data = await fetchEdition(year, debugOverride ?? debug, key);
+      setEdition(data);
+    },
+    [year, debug, key],
+  );
 
   useEffect(() => {
     if (!Number.isInteger(year)) {
@@ -111,8 +114,14 @@ export function YearPage() {
       <CountdownScreen
         edition={edition.edition}
         simulated={edition.simulated}
+        nowUtc={edition.nowUtc}
         onReached={() => {
-          void loadEdition();
+          // In debug mode the server clock is frozen at ?debug=..., so
+          // re-fetching with the same value would return countdown forever.
+          // Jump the simulated clock to the target instead.
+          void loadEdition(
+            edition.simulated ? edition.edition.targetUtc : undefined,
+          );
         }}
       />
     );

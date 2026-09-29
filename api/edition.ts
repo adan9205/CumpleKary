@@ -50,6 +50,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       phase: "countdown",
       edition,
       simulated,
+      nowUtc: now.toUTC().toISO() ?? "",
     });
     return;
   }

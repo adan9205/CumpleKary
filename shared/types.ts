@@ -38,6 +38,8 @@ export type EditionResponse =
       phase: "countdown";
       edition: PublicEdition;
       simulated: boolean;
+      /** Server "now" (UTC ISO). Differs from wall clock when simulated. */
+      nowUtc: string;
     }
   | {
       ok: true;
