@@ -9,7 +9,7 @@ import {
   RATE_MAX_AGE,
   readCookie,
   setCookie,
-} from "./cookies.ts";
+} from "./cookies.js";
 
 type EditionClaims = {
   typ: "ed";

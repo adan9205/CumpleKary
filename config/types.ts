@@ -1,4 +1,4 @@
-import type { CountdownStage } from "../shared/types.ts";
+import type { CountdownStage } from "../shared/types.js";
 
 export type EditionConfig = {
   year: number;

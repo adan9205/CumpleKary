@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
-import type { EditionConfig } from "../config/types.ts";
-import type { CountdownStage } from "../shared/types.ts";
+import type { EditionConfig } from "../config/types.js";
+import type { CountdownStage } from "../shared/types.js";
 
 export function targetUtc(config: EditionConfig): DateTime {
   const [hours, minutes, seconds] = config.targetTime.split(":").map(Number);

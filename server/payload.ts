@@ -1,6 +1,6 @@
-import type { EditionConfig } from "../config/types.ts";
-import type { PublicEdition, SurprisePayload } from "../shared/types.ts";
-import { targetUtc } from "./time.ts";
+import type { EditionConfig } from "../config/types.js";
+import type { PublicEdition, SurprisePayload } from "../shared/types.js";
+import { targetUtc } from "./time.js";
 
 export function publicEdition(config: EditionConfig): PublicEdition {
   return {

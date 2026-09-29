@@ -1,4 +1,4 @@
-import type { EditionConfig } from "./types.ts";
+import type { EditionConfig } from "./types.js";
 
 export const edition2026: EditionConfig = {
   year: 2026,

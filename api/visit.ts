@@ -1,22 +1,22 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getEdition } from "../config/index.ts";
+import { getEdition } from "../config/index.js";
 import {
   clientTimeZone,
   methodNotAllowed,
   parseYear,
   readJson,
   send,
-} from "../server/http.ts";
+} from "../server/http.js";
 import {
   geoFromHeaders,
   hasTurso,
   recordVisit,
   requireTurso,
-} from "../server/db.ts";
+} from "../server/db.js";
 import {
   issueEditionSession,
   readEditionSession,
-} from "../server/session.ts";
+} from "../server/session.js";
 
 type Body = { year?: unknown; timeZone?: unknown };
 

@@ -1,10 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { methodNotAllowed, readJson, send } from "../server/http.ts";
+import { methodNotAllowed, readJson, send } from "../server/http.js";
 import {
   ensureRateId,
   issueAdminSession,
   safeEqual,
-} from "../server/session.ts";
+} from "../server/session.js";
 import {
   hasTurso,
   isLocked,
@@ -12,7 +12,7 @@ import {
   memoryLocked,
   registerFailure,
   requireTurso,
-} from "../server/db.ts";
+} from "../server/db.js";
 
 const ADMIN_YEAR = 0;
 

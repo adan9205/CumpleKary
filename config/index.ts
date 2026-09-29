@@ -1,5 +1,5 @@
-import { edition2026 } from "./2026.ts";
-import type { EditionConfig } from "./types.ts";
+import { edition2026 } from "./2026.js";
+import type { EditionConfig } from "./types.js";
 
 const editions: Record<number, EditionConfig> = {
   [edition2026.year]: edition2026,

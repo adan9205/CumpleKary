@@ -1,10 +1,10 @@
 import { DateTime } from "luxon";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getEdition } from "../config/index.ts";
-import { methodNotAllowed, parseYear, send } from "../server/http.ts";
-import { publicEdition, surprisePayload } from "../server/payload.ts";
-import { debugAuthorized, readEditionSession } from "../server/session.ts";
-import { isUnlocked, parseDebugNow } from "../server/time.ts";
+import { getEdition } from "../config/index.js";
+import { methodNotAllowed, parseYear, send } from "../server/http.js";
+import { publicEdition, surprisePayload } from "../server/payload.js";
+import { debugAuthorized, readEditionSession } from "../server/session.js";
+import { isUnlocked, parseDebugNow } from "../server/time.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
@@ -26,7 +26,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const debugRaw = req.query.debug;
   const debugKey = req.query.key;
-  let now = DateTime.utc();
+  let now: DateTime = DateTime.utc();
   let simulated = false;
 
   if (typeof debugRaw === "string" && debugRaw) {

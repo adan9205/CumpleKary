@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getCurrentYear, listEditionYears } from "../config/index.ts";
-import { methodNotAllowed, send } from "../server/http.ts";
+import { getCurrentYear, listEditionYears } from "../config/index.js";
+import { methodNotAllowed, send } from "../server/http.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {

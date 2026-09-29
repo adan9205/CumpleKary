@@ -1,8 +1,8 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { getEdition, listEditionYears } from "../config/index.ts";
-import { methodNotAllowed, parseYear, send } from "../server/http.ts";
-import { countVisits, hasTurso, listVisits, requireTurso } from "../server/db.ts";
-import { readAdminSession } from "../server/session.ts";
+import { getEdition, listEditionYears } from "../config/index.js";
+import { methodNotAllowed, parseYear, send } from "../server/http.js";
+import { countVisits, hasTurso, listVisits, requireTurso } from "../server/db.js";
+import { readAdminSession } from "../server/session.js";
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   if (req.method !== "GET") {
