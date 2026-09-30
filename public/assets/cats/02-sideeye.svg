@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-label="Gatito desconfiado">
-  <rect width="160" height="160" rx="28" fill="#2f2834"/>
-  <ellipse cx="80" cy="98" rx="44" ry="36" fill="#cbb7a3"/>
-  <path d="M42 80 L38 40 L70 70 Z" fill="#cbb7a3"/>
-  <path d="M118 80 L122 40 L90 70 Z" fill="#cbb7a3"/>
-  <ellipse cx="62" cy="96" rx="6" ry="4" fill="#23181c"/>
-  <ellipse cx="102" cy="94" rx="3.5" ry="3" fill="#23181c"/>
-  <path d="M74 114 H90" stroke="#23181c" stroke-width="3"/>
-</svg>
