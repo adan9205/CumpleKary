@@ -6,9 +6,6 @@ type Arm = {
   sway: "tentacle-sway" | "tentacle-sway-slow";
   /** Horizontal slot across the full width, not a side pile. */
   left: string;
-  /** Size = min(vw, dvh): width limits phones, height limits desktops. */
-  vw: number;
-  dvh: number;
   lean: number;
   flip?: boolean;
   tone: "bronze" | "teal";
@@ -20,8 +17,6 @@ const ARMS: Arm[] = [
     from: 0,
     sway: "tentacle-sway",
     left: "-4%",
-    vw: 32,
-    dvh: 40,
     lean: -12,
     tone: "bronze",
   },
@@ -30,8 +25,6 @@ const ARMS: Arm[] = [
     from: 0.14,
     sway: "tentacle-sway-slow",
     left: "16%",
-    vw: 28,
-    dvh: 34,
     lean: 8,
     flip: true,
     tone: "teal",
@@ -41,8 +34,6 @@ const ARMS: Arm[] = [
     from: 0.3,
     sway: "tentacle-sway",
     left: "34%",
-    vw: 26,
-    dvh: 32,
     lean: -6,
     tone: "teal",
   },
@@ -51,8 +42,6 @@ const ARMS: Arm[] = [
     from: 0.44,
     sway: "tentacle-sway-slow",
     left: "50%",
-    vw: 30,
-    dvh: 36,
     lean: 10,
     tone: "bronze",
   },
@@ -61,8 +50,6 @@ const ARMS: Arm[] = [
     from: 0.58,
     sway: "tentacle-sway",
     left: "64%",
-    vw: 28,
-    dvh: 38,
     lean: -14,
     flip: true,
     tone: "bronze",
@@ -72,8 +59,6 @@ const ARMS: Arm[] = [
     from: 0.72,
     sway: "tentacle-sway-slow",
     left: "80%",
-    vw: 34,
-    dvh: 42,
     lean: 14,
     tone: "teal",
   },
@@ -82,8 +67,6 @@ const ARMS: Arm[] = [
     from: 0.88,
     sway: "tentacle-sway",
     left: "42%",
-    vw: 36,
-    dvh: 30,
     lean: 2,
     tone: "bronze",
   },
@@ -106,21 +89,21 @@ export function Tentacles({ intensity }: Props) {
           return null;
         }
         const grown = (t - arm.from) / (1 - arm.from);
-        // Most of the climb happens late, so one day reads against the last.
-        const rise = grown ** 4.4;
-        // >100 keeps the arm fully under the edge until it is close.
-        const sunk = (1 - rise) * 135;
+        // Slow at first, then they rear up in the last days.
+        const rise = grown ** 3.2;
+        const sunk = (1 - rise) * 108;
+        // Square: the drawing only fills the shorter side.
+        const size = 18 + rise * 50;
         return (
           <div
             key={arm.src}
             className="absolute bottom-0"
             style={
               {
-                "--s": `min(${arm.vw}vw, ${arm.dvh}dvh)`,
-                width: "var(--s)",
-                height: "var(--s)",
+                width: `${size}dvh`,
+                height: `${size}dvh`,
                 left: arm.left,
-                opacity: 0.3 + rise * 0.55,
+                opacity: 0.34 + rise * 0.5,
                 transform: `translateY(${sunk}%) rotate(${arm.lean}deg) scaleX(${arm.flip ? -1 : 1})`,
                 transformOrigin: "50% 100%",
               } as CSSProperties
