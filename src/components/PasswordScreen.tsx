@@ -37,9 +37,9 @@ export function PasswordScreen({ year, onUnlock }: Props) {
       <img src="/assets/illaoi/tide.svg" alt="" className="illaoi-wash" />
       <form
         onSubmit={onSubmit}
-        className="anim-fade relative z-10 w-full max-w-sm text-center"
+        className="anim-fade relative z-10 w-full max-w-sm text-center lg:max-w-md"
       >
-        <h1 className="font-display text-foam text-3xl tracking-wide text-balance">
+        <h1 className="font-display text-foam text-3xl tracking-wide text-balance lg:text-5xl">
           Algo te espera
         </h1>
         <p className="text-mist mt-3 text-sm">

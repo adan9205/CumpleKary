@@ -95,8 +95,8 @@ export function CountdownScreen({
         className="illaoi-idol-faint"
       />
       <Tentacles intensity={intensity} />
-      <div className="anim-fade relative z-10 w-full max-w-md text-center">
-        <h1 className="font-display text-foam text-3xl">Falta poco</h1>
+      <div className="anim-fade relative z-10 w-full max-w-md text-center lg:max-w-xl">
+        <h1 className="font-display text-foam text-3xl lg:text-5xl">Falta poco</h1>
         <button
           type="button"
           onClick={onClock}
@@ -111,9 +111,9 @@ export function CountdownScreen({
           ].map(([value, label]) => (
             <div
               key={String(label)}
-              className="kintsugi rounded-2xl px-1 py-4"
+              className="kintsugi rounded-2xl px-1 py-4 lg:py-6"
             >
-              <div className="tick text-foam text-3xl sm:text-4xl">
+              <div className="tick text-foam text-3xl sm:text-4xl lg:text-5xl">
                 {typeof value === "number" ? pad(value) : value}
               </div>
               <div className="text-mist mt-1 text-[10px] tracking-widest uppercase">

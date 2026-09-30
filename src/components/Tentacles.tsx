@@ -1,10 +1,14 @@
+import type { CSSProperties } from "react";
+
 type Arm = {
   src: string;
   from: number;
   sway: "tentacle-sway" | "tentacle-sway-slow";
+  /** Horizontal slot across the full width, not a side pile. */
   left: string;
-  width: string;
-  height: string;
+  /** Size = min(vw, dvh): width limits phones, height limits desktops. */
+  vw: number;
+  dvh: number;
   lean: number;
   flip?: boolean;
   tone: "bronze" | "teal";
@@ -15,72 +19,72 @@ const ARMS: Arm[] = [
     src: "/assets/tentacles/Tentacles1.svg",
     from: 0,
     sway: "tentacle-sway",
-    left: "-18%",
-    width: "62%",
-    height: "78%",
-    lean: -10,
+    left: "-4%",
+    vw: 32,
+    dvh: 40,
+    lean: -12,
     tone: "bronze",
   },
   {
     src: "/assets/tentacles/Tentacles3.svg",
-    from: 0.1,
+    from: 0.14,
     sway: "tentacle-sway-slow",
-    left: "54%",
-    width: "66%",
-    height: "80%",
-    lean: 10,
+    left: "16%",
+    vw: 28,
+    dvh: 34,
+    lean: 8,
     flip: true,
     tone: "teal",
   },
   {
     src: "/assets/tentacles/Tentacles4.svg",
-    from: 0.24,
+    from: 0.3,
     sway: "tentacle-sway",
-    left: "-8%",
-    width: "52%",
-    height: "70%",
-    lean: -4,
+    left: "34%",
+    vw: 26,
+    dvh: 32,
+    lean: -6,
     tone: "teal",
   },
   {
     src: "/assets/tentacles/Tentacles5.svg",
-    from: 0.38,
+    from: 0.44,
     sway: "tentacle-sway-slow",
     left: "50%",
-    width: "54%",
-    height: "72%",
-    lean: 5,
+    vw: 30,
+    dvh: 36,
+    lean: 10,
     tone: "bronze",
   },
   {
     src: "/assets/tentacles/Tentacles6.svg",
-    from: 0.52,
+    from: 0.58,
     sway: "tentacle-sway",
-    left: "-30%",
-    width: "74%",
-    height: "88%",
-    lean: -16,
+    left: "64%",
+    vw: 28,
+    dvh: 38,
+    lean: -14,
     flip: true,
     tone: "bronze",
   },
   {
     src: "/assets/tentacles/Tentacles7.svg",
-    from: 0.68,
+    from: 0.72,
     sway: "tentacle-sway-slow",
-    left: "52%",
-    width: "78%",
-    height: "90%",
-    lean: 16,
+    left: "80%",
+    vw: 34,
+    dvh: 42,
+    lean: 14,
     tone: "teal",
   },
   {
     src: "/assets/tentacles/Tentacles9.svg",
-    from: 0.84,
+    from: 0.88,
     sway: "tentacle-sway",
-    left: "16%",
-    width: "70%",
-    height: "46%",
-    lean: 0,
+    left: "42%",
+    vw: 36,
+    dvh: 30,
+    lean: 2,
     tone: "bronze",
   },
 ];
@@ -94,7 +98,7 @@ export function Tentacles({ intensity }: Props) {
 
   return (
     <div
-      className="pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto h-full w-full max-w-md overflow-hidden"
+      className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
       aria-hidden="true"
     >
       {ARMS.map((arm, index) => {
@@ -102,19 +106,23 @@ export function Tentacles({ intensity }: Props) {
           return null;
         }
         const grown = (t - arm.from) / (1 - arm.from);
-        const reach = 0.58 + grown * 0.42;
+        // 0 = only the tip clears the bottom edge. 1 = the arm has risen.
+        const sunk = (1 - grown) * 88;
         return (
           <div
             key={arm.src}
             className="absolute bottom-0"
-            style={{
-              left: arm.left,
-              width: arm.width,
-              height: arm.height,
-              opacity: 0.38 + grown * 0.4,
-              transform: `scaleX(${arm.flip ? -1 : 1}) scaleY(${reach}) rotate(${arm.lean}deg)`,
-              transformOrigin: "50% 100%",
-            }}
+            style={
+              {
+                "--s": `min(${arm.vw}vw, ${arm.dvh}dvh)`,
+                width: "var(--s)",
+                height: "var(--s)",
+                left: arm.left,
+                opacity: 0.22 + grown * 0.58,
+                transform: `translateY(${sunk}%) rotate(${arm.lean}deg) scaleX(${arm.flip ? -1 : 1})`,
+                transformOrigin: "50% 100%",
+              } as CSSProperties
+            }
           >
             <div
               className={`${arm.sway} h-full w-full`}
