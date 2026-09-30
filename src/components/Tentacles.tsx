@@ -106,8 +106,10 @@ export function Tentacles({ intensity }: Props) {
           return null;
         }
         const grown = (t - arm.from) / (1 - arm.from);
-        // 0 = only the tip clears the bottom edge. 1 = the arm has risen.
-        const sunk = (1 - grown) * 88;
+        // Most of the climb happens late, so one day reads against the last.
+        const rise = grown ** 4.4;
+        // >100 keeps the arm fully under the edge until it is close.
+        const sunk = (1 - rise) * 135;
         return (
           <div
             key={arm.src}
@@ -118,7 +120,7 @@ export function Tentacles({ intensity }: Props) {
                 width: "var(--s)",
                 height: "var(--s)",
                 left: arm.left,
-                opacity: 0.22 + grown * 0.58,
+                opacity: 0.3 + rise * 0.55,
                 transform: `translateY(${sunk}%) rotate(${arm.lean}deg) scaleX(${arm.flip ? -1 : 1})`,
                 transformOrigin: "50% 100%",
               } as CSSProperties
