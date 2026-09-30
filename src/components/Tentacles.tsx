@@ -1,49 +1,87 @@
 type Arm = {
-  d: string;
+  src: string;
   from: number;
   sway: "tentacle-sway" | "tentacle-sway-slow";
+  left: string;
+  width: string;
+  height: string;
+  lean: number;
+  flip?: boolean;
+  tone: "bronze" | "teal";
 };
 
 const ARMS: Arm[] = [
   {
+    src: "/assets/tentacles/Tentacles1.svg",
     from: 0,
     sway: "tentacle-sway",
-    d: "M18 298 C40 250 28 210 52 176 C70 148 48 128 62 98",
+    left: "-18%",
+    width: "62%",
+    height: "78%",
+    lean: -10,
+    tone: "bronze",
   },
   {
-    from: 0.08,
+    src: "/assets/tentacles/Tentacles3.svg",
+    from: 0.1,
     sway: "tentacle-sway-slow",
-    d: "M382 298 C360 248 374 206 348 174 C328 148 350 126 338 96",
+    left: "54%",
+    width: "66%",
+    height: "80%",
+    lean: 10,
+    flip: true,
+    tone: "teal",
   },
   {
-    from: 0.18,
+    src: "/assets/tentacles/Tentacles4.svg",
+    from: 0.24,
     sway: "tentacle-sway",
-    d: "M48 300 C70 262 86 228 78 190 C70 154 96 140 90 108",
+    left: "-8%",
+    width: "52%",
+    height: "70%",
+    lean: -4,
+    tone: "teal",
   },
   {
-    from: 0.32,
+    src: "/assets/tentacles/Tentacles5.svg",
+    from: 0.38,
     sway: "tentacle-sway-slow",
-    d: "M352 300 C330 260 316 224 324 186 C332 150 306 138 312 104",
+    left: "50%",
+    width: "54%",
+    height: "72%",
+    lean: 5,
+    tone: "bronze",
   },
   {
-    from: 0.46,
+    src: "/assets/tentacles/Tentacles6.svg",
+    from: 0.52,
     sway: "tentacle-sway",
-    d: "M8 292 C36 268 22 232 44 204 C62 180 36 164 50 132 C58 112 44 98 56 80",
+    left: "-30%",
+    width: "74%",
+    height: "88%",
+    lean: -16,
+    flip: true,
+    tone: "bronze",
   },
   {
-    from: 0.6,
+    src: "/assets/tentacles/Tentacles7.svg",
+    from: 0.68,
     sway: "tentacle-sway-slow",
-    d: "M392 292 C364 266 378 230 356 202 C338 178 364 160 350 128 C342 108 356 94 344 76",
+    left: "52%",
+    width: "78%",
+    height: "90%",
+    lean: 16,
+    tone: "teal",
   },
   {
-    from: 0.74,
+    src: "/assets/tentacles/Tentacles9.svg",
+    from: 0.84,
     sway: "tentacle-sway",
-    d: "M72 302 C92 270 118 248 108 210 C100 178 128 168 122 136",
-  },
-  {
-    from: 0.88,
-    sway: "tentacle-sway-slow",
-    d: "M328 302 C308 270 282 248 292 210 C300 178 272 168 278 136",
+    left: "16%",
+    width: "70%",
+    height: "46%",
+    lean: 0,
+    tone: "bronze",
   },
 ];
 
@@ -53,37 +91,53 @@ type Props = {
 
 export function Tentacles({ intensity }: Props) {
   const t = Math.min(1, Math.max(0, intensity));
-  const reach = 0.42 + t * 0.58;
 
   return (
-    <svg
-      className="pointer-events-none absolute inset-0 z-0 h-full w-full"
-      viewBox="0 0 400 300"
-      preserveAspectRatio="xMidYMax meet"
+    <div
+      className="pointer-events-none absolute inset-x-0 bottom-0 z-0 mx-auto h-full w-full max-w-md overflow-hidden"
       aria-hidden="true"
     >
-      <g transform={`translate(200 300) scale(1 ${reach}) translate(-200 -300)`}>
-        {ARMS.map((arm, i) => {
-          if (t < arm.from) {
-            return null;
-          }
-          const grown = (t - arm.from) / (1 - arm.from);
-          const width = 3.2 + grown * 5.5;
-          return (
-            <path
-              key={arm.d}
-              className={arm.sway}
-              d={arm.d}
-              fill="none"
-              stroke={i % 2 === 0 ? "#b87333" : "#1a8f86"}
-              strokeWidth={width}
-              strokeLinecap="round"
-              opacity={0.28 + grown * 0.42}
-              style={{ animationDelay: `${i * 0.35}s` }}
+      {ARMS.map((arm, index) => {
+        if (t < arm.from) {
+          return null;
+        }
+        const grown = (t - arm.from) / (1 - arm.from);
+        const reach = 0.58 + grown * 0.42;
+        return (
+          <div
+            key={arm.src}
+            className="absolute bottom-0"
+            style={{
+              left: arm.left,
+              width: arm.width,
+              height: arm.height,
+              opacity: 0.38 + grown * 0.4,
+              transform: `scaleX(${arm.flip ? -1 : 1}) scaleY(${reach}) rotate(${arm.lean}deg)`,
+              transformOrigin: "50% 100%",
+            }}
+          >
+            <div
+              className={`${arm.sway} h-full w-full`}
+              style={{
+                backgroundColor:
+                  arm.tone === "bronze"
+                    ? "var(--color-bronze)"
+                    : "var(--color-teal-deep)",
+                animationDelay: `${index * 0.4}s`,
+                WebkitMaskImage: `url(${arm.src})`,
+                maskImage: `url(${arm.src})`,
+                WebkitMaskRepeat: "no-repeat",
+                maskRepeat: "no-repeat",
+                WebkitMaskSize: "contain",
+                maskSize: "contain",
+                WebkitMaskPosition: "center bottom",
+                maskPosition: "center bottom",
+                maskMode: "luminance",
+              }}
             />
-          );
-        })}
-      </g>
-    </svg>
+          </div>
+        );
+      })}
+    </div>
   );
 }

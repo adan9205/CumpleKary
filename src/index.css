@@ -195,10 +195,10 @@ input {
 @keyframes tentacle-sway {
   0%,
   100% {
-    transform: rotate(-2.2deg) translateY(0);
+    transform: rotate(-1.4deg);
   }
   50% {
-    transform: rotate(2.4deg) translateY(3px);
+    transform: rotate(1.4deg);
   }
 }
 
@@ -222,8 +222,8 @@ input {
 }
 
 .tentacle-sway-slow {
-  transform-origin: 20% 100%;
-  animation: tentacle-sway 8.2s ease-in-out infinite reverse;
+  transform-origin: 50% 100%;
+  animation: tentacle-sway 8.6s ease-in-out infinite reverse;
 }
 
 @media (prefers-reduced-motion: reduce) {
