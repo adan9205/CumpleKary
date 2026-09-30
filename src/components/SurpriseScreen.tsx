@@ -230,7 +230,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
               <img
                 src={surprise.photoSrc}
                 alt={surprise.photoAlt}
-                className="anim-fade kintsugi max-h-[70dvh] w-full rounded-3xl object-cover"
+                className="anim-photo kintsugi mx-auto block h-auto max-h-[70dvh] w-auto max-w-full rounded-3xl object-contain"
               />
             ) : null}
 

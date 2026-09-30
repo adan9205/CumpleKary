@@ -206,6 +206,27 @@ input {
   animation: fade-up 0.7s ease both;
 }
 
+/* Photo slide: slow reveal, from blur and slightly smaller, then settles. */
+@keyframes photo-reveal {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+    filter: blur(14px);
+  }
+  60% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+.anim-photo {
+  animation: photo-reveal 2.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
 .anim-cat {
   animation: cat-in 0.45s ease both;
 }
@@ -231,6 +252,7 @@ input {
   .tentacle-sway,
   .tentacle-sway-slow,
   .anim-fade,
+  .anim-photo,
   .anim-cat {
     animation: none;
   }
