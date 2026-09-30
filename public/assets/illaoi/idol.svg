@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 360" fill="none">
+  <!-- Placeholder vertical. Replace this file with a real Illaoi splash (same name). -->
+  <rect width="240" height="360" fill="#0f241c"/>
+  <path fill="#1a3d32" d="M40 320h160v20H40z"/>
+  <path fill="#b87333" d="M112 28h16v36h-16z"/>
+  <ellipse cx="120" cy="110" rx="52" ry="58" fill="#16382e" stroke="#c4894a" stroke-width="4"/>
+  <path fill="#2ec4b6" opacity="0.55" d="M112 88h16v48h-16z"/>
+  <path fill="#8b9590" opacity="0.35" d="M78 168h84l18 140H60z"/>
+  <path stroke="#b87333" stroke-width="5" stroke-linecap="round" d="M48 250c24 28 48 40 72 40s48-12 72-40"/>
+  <path stroke="#2ec4b6" stroke-width="3" stroke-linecap="round" opacity="0.5" d="M36 300c28-36 56-52 84-52s56 16 84 52"/>
+</svg>

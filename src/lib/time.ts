@@ -35,3 +35,12 @@ export function stageNow(edition: PublicEdition, remain: Remain): CountdownStage
 export function pad(n: number): string {
   return String(n).padStart(2, "0");
 }
+
+/** Horizon matches the "mid" stage (29 days). 0 far away, 1 at target. */
+export function tentacleIntensity(remain: Remain, horizonDays = 29): number {
+  if (remain.totalMs <= 0) {
+    return 1;
+  }
+  const daysLeft = remain.totalMs / 86400000;
+  return Math.min(1, Math.max(0, 1 - daysLeft / horizonDays));
+}

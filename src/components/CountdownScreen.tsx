@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { PublicEdition } from "../../shared/types";
-import { pad, remaining, stageNow } from "../lib/time";
+import { pad, remaining, stageNow, tentacleIntensity } from "../lib/time";
 import { CatPeek } from "./CatPeek";
+import { Tentacles } from "./Tentacles";
 import { TimezoneNotice } from "./TimezoneNotice";
 
 type Props = {
@@ -36,6 +37,7 @@ export function CountdownScreen({
 
   const remain = useMemo(() => remaining(edition.targetUtc, now), [edition.targetUtc, now]);
   const stage = useMemo(() => stageNow(edition, remain), [edition, remain]);
+  const intensity = useMemo(() => tentacleIntensity(remain), [remain]);
 
   useEffect(() => {
     setNow(Date.now() + offset);
@@ -84,15 +86,21 @@ export function CountdownScreen({
 
   return (
     <div
-      className="screen relative flex flex-col items-center justify-center overflow-hidden transition-[background] duration-1000"
+      className="stone-veil screen relative flex flex-col items-center justify-center overflow-hidden transition-[background] duration-1000"
       style={{ background: stage.gradient }}
     >
-      <div className="anim-fade w-full max-w-md text-center">
-        <h1 className="text-cream text-3xl font-medium">Falta poco</h1>
+      <img
+        src="/assets/illaoi/idol.svg"
+        alt=""
+        className="illaoi-idol-faint"
+      />
+      <Tentacles intensity={intensity} />
+      <div className="anim-fade relative z-10 w-full max-w-md text-center">
+        <h1 className="font-display text-foam text-3xl">Falta poco</h1>
         <button
           type="button"
           onClick={onClock}
-          className="mt-10 grid w-full grid-cols-4 gap-2"
+          className="mt-10 grid w-full cursor-pointer grid-cols-4 gap-2"
           aria-label="Contador"
         >
           {[
@@ -103,12 +111,12 @@ export function CountdownScreen({
           ].map(([value, label]) => (
             <div
               key={String(label)}
-              className="bg-night/45 ring-rose/15 rounded-2xl px-1 py-4 ring-1"
+              className="kintsugi rounded-2xl px-1 py-4"
             >
-              <div className="tick text-cream text-3xl tabular-nums sm:text-4xl">
+              <div className="tick text-foam text-3xl sm:text-4xl">
                 {typeof value === "number" ? pad(value) : value}
               </div>
-              <div className="text-cream-2 mt-1 text-[10px] tracking-widest uppercase">
+              <div className="text-mist mt-1 text-[10px] tracking-widest uppercase">
                 {label}
               </div>
             </div>
@@ -117,11 +125,11 @@ export function CountdownScreen({
         <div className="mt-12">
           <TimezoneNotice timeZone={edition.timeZone} />
         </div>
-        <p className="text-rose/70 mt-6 text-xs tracking-[0.3em]">
+        <p className="text-mist/70 mt-6 text-xs tracking-[0.3em]">
           {edition.year}
         </p>
         {simulated ? (
-          <p className="text-gold mt-4 text-[10px] tracking-widest uppercase">
+          <p className="text-teal mt-4 text-[10px] tracking-widest uppercase">
             modo prueba
           </p>
         ) : null}

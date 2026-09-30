@@ -33,15 +33,16 @@ export function PasswordScreen({ year, onUnlock }: Props) {
   }
 
   return (
-    <div className="screen night-sky flex flex-col items-center justify-center">
+    <div className="screen night-sky flex flex-col items-center justify-center overflow-hidden">
+      <img src="/assets/illaoi/tide.svg" alt="" className="illaoi-wash" />
       <form
         onSubmit={onSubmit}
-        className="anim-fade w-full max-w-sm text-center"
+        className="anim-fade relative z-10 w-full max-w-sm text-center"
       >
-        <h1 className="text-cream text-3xl font-medium tracking-wide text-balance">
+        <h1 className="font-display text-foam text-3xl tracking-wide text-balance">
           Algo te espera
         </h1>
-        <p className="text-cream-2 mt-3 text-sm">
+        <p className="text-mist mt-3 text-sm">
           Escribe la palabra que ya conoces.
         </p>
         <input
@@ -49,7 +50,7 @@ export function PasswordScreen({ year, onUnlock }: Props) {
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border-rose/25 bg-night-2 text-cream focus:border-gold mt-8 w-full rounded-2xl border px-4 py-3 text-center outline-none transition-colors focus-visible:outline-0"
+          className="border-bronze/40 bg-kelp text-foam focus:border-teal mt-8 w-full rounded-2xl border px-4 py-3 text-center outline-none transition-colors focus-visible:outline-0"
           placeholder="Contraseña"
         />
         <p
@@ -62,14 +63,14 @@ export function PasswordScreen({ year, onUnlock }: Props) {
         <button
           type="submit"
           disabled={busy || !password}
-          className="bg-gold text-ink hover:bg-gold-deep disabled:bg-night-2 disabled:text-cream-2/60 mt-3 w-full rounded-2xl py-3 font-medium shadow-[0_10px_28px_-10px_rgb(242_193_78/0.55)] transition-colors disabled:shadow-none"
+          className="bg-teal text-ink hover:bg-teal-deep disabled:bg-kelp disabled:text-mist/60 mt-3 w-full cursor-pointer rounded-2xl py-3 font-medium shadow-[0_10px_28px_-10px_rgb(46_196_182/0.45)] transition-colors disabled:shadow-none"
         >
           {busy ? "Abriendo…" : "Entrar"}
         </button>
         <div className="mt-10">
           <TimezoneNotice timeZone={viewerTimeZone()} />
         </div>
-        <p className="text-rose/70 mt-6 text-xs tracking-[0.3em]">{year}</p>
+        <p className="text-mist/70 mt-6 text-xs tracking-[0.3em]">{year}</p>
       </form>
     </div>
   );

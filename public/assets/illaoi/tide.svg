@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 320" fill="none" preserveAspectRatio="xMidYMax slice">
+  <!-- Placeholder horizontal. Replace this file with a real Illaoi splash (same name). -->
+  <rect width="800" height="320" fill="#071410"/>
+  <path fill="#0f241c" d="M0 140c80-40 160-20 240-36s160-48 240-20 160 48 240 20 80-8 80 20v176H0z"/>
+  <path fill="#1a3d32" d="M0 200c120-30 200 10 320-16s200-40 320 8 120 24 160 8v128H0z"/>
+  <path fill="none" stroke="#b87333" stroke-width="6" stroke-linecap="round" d="M40 250c80-50 140-20 220-48s150-60 240-20 140 40 220 10"/>
+  <path fill="none" stroke="#2ec4b6" stroke-width="3" stroke-opacity="0.45" d="M0 280c140-40 220 8 360-20s260-36 440 12"/>
+  <ellipse cx="620" cy="120" rx="70" ry="88" fill="#16382e" stroke="#c4894a" stroke-width="4"/>
+</svg>

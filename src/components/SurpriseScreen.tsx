@@ -95,7 +95,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
         particleCount: 80,
         spread: 70,
         origin: { y: 0.7 },
-        colors: ["#f2c14e", "#f2a0b8", "#fbf1e6", "#c8922a", "#6b1e3f"],
+        colors: ["#2ec4b6", "#b87333", "#e6f0ea", "#c4894a", "#0f241c"],
       });
     burst();
     const id = window.setInterval(burst, 2200);
@@ -187,27 +187,32 @@ export function SurpriseScreen({ year, surprise }: Props) {
   }
 
   return (
-    <div className="screen night-sky relative flex flex-col">
+    <div className="screen night-sky relative flex flex-col overflow-hidden">
       <audio ref={audioRef} src={surprise.songSrc} playsInline preload="none" />
 
       {!started ? (
-        <div className="anim-fade flex flex-1 flex-col items-center justify-center text-center">
-          <h1 className="text-cream text-4xl text-balance">Ya es el día</h1>
-          <p className="text-cream-2 mt-3 text-sm">
+        <div className="anim-fade relative z-10 flex flex-1 flex-col items-center justify-center text-center">
+          <img src="/assets/illaoi/tide.svg" alt="" className="illaoi-wash" />
+          <h1 className="font-display text-foam relative text-4xl text-balance">
+            Ya es el día
+          </h1>
+          <p className="text-mist relative mt-3 text-sm">
             Sube el volumen. Empieza con música.
           </p>
           <button
             type="button"
             onClick={openSurprise}
-            className="bg-gold text-ink hover:bg-gold-deep mt-10 rounded-full px-9 py-4 font-medium shadow-[0_14px_36px_-12px_rgb(242_193_78/0.6)] transition-colors"
+            className="bg-teal text-ink hover:bg-teal-deep relative mt-10 cursor-pointer rounded-full px-9 py-4 font-medium shadow-[0_14px_36px_-12px_rgb(46_196_182/0.5)] transition-colors"
           >
             Abrir sorpresa
           </button>
-          <p className="text-rose/70 mt-12 text-xs tracking-[0.3em]">{year}</p>
+          <p className="text-mist/70 relative mt-12 text-xs tracking-[0.3em]">
+            {year}
+          </p>
         </div>
       ) : (
         <div
-          className="flex flex-1 flex-col"
+          className="relative z-10 flex flex-1 flex-col"
           onTouchStart={onTouchStart}
           onTouchEnd={onTouchEnd}
         >
@@ -225,19 +230,19 @@ export function SurpriseScreen({ year, surprise }: Props) {
               <img
                 src={surprise.photoSrc}
                 alt={surprise.photoAlt}
-                className="anim-fade ring-gold/30 max-h-[70dvh] w-full rounded-3xl object-cover shadow-[0_24px_60px_-20px_rgb(107_30_63/0.8)] ring-1"
+                className="anim-fade kintsugi max-h-[70dvh] w-full rounded-3xl object-cover"
               />
             ) : null}
 
             {slide.kind === "text" ? (
               <div className="anim-fade relative w-full max-w-lg px-2">
-                <p className="text-cream text-center text-lg leading-relaxed text-pretty sm:text-xl">
+                <p className="text-foam text-center text-lg leading-relaxed text-pretty sm:text-xl">
                   {slide.text}
                 </p>
                 <img
                   src={slide.cat}
                   alt=""
-                  className={`absolute w-14 opacity-80 sm:w-16 ${
+                  className={`kintsugi absolute w-14 rounded-xl opacity-80 sm:w-16 ${
                     index % 2 === 0
                       ? "-bottom-20 left-0"
                       : "-top-20 right-0"
@@ -251,9 +256,9 @@ export function SurpriseScreen({ year, surprise }: Props) {
                 <img
                   src={slide.imageSrc}
                   alt=""
-                  className="bg-night-2 ring-gold/25 mx-auto max-h-[50dvh] w-full rounded-3xl object-contain p-2 shadow-[0_20px_50px_-20px_rgb(107_30_63/0.8)] ring-1"
+                  className="kintsugi mx-auto max-h-[50dvh] w-full rounded-3xl object-contain p-2"
                 />
-                <figcaption className="text-cream-2 mt-5 text-sm leading-relaxed text-pretty">
+                <figcaption className="text-mist mt-5 text-sm leading-relaxed text-pretty">
                   {slide.caption}
                 </figcaption>
               </figure>
@@ -272,7 +277,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
                 }}
               >
                 {surprise.youtubeId ? (
-                  <div className="relative aspect-video overflow-hidden rounded-3xl bg-black">
+                  <div className="kintsugi relative aspect-video overflow-hidden rounded-3xl bg-black">
                     <iframe
                       title="Video"
                       className="absolute inset-0 h-full w-full"
@@ -282,7 +287,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
                     />
                   </div>
                 ) : (
-                  <p className="bg-night-2 text-cream-2 border-rose/20 rounded-3xl border px-4 py-16 text-center text-sm">
+                  <p className="kintsugi text-mist rounded-3xl px-4 py-16 text-center text-sm">
                     Video de YouTube (pon el id en config/{year}.ts)
                   </p>
                 )}
@@ -291,7 +296,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
 
             {slide.kind === "finale" ? (
               <div className="anim-fade text-center">
-                <p className="text-gold text-4xl leading-snug text-balance sm:text-5xl">
+                <p className="font-display text-foam text-4xl leading-snug text-balance sm:text-5xl">
                   {surprise.finale}
                 </p>
               </div>
@@ -303,18 +308,18 @@ export function SurpriseScreen({ year, surprise }: Props) {
               type="button"
               onClick={() => go(-1)}
               disabled={index === 0}
-              className="border-rose/30 text-cream hover:bg-night-2 disabled:border-rose/10 disabled:text-cream-2/40 rounded-2xl border px-4 py-3 text-sm transition-colors"
+              className="border-bronze/40 text-foam hover:bg-kelp disabled:border-moss/40 disabled:text-mist/40 cursor-pointer rounded-2xl border px-4 py-3 text-sm transition-colors disabled:cursor-not-allowed"
             >
               Atrás
             </button>
-            <p className="text-cream-2 text-xs tabular-nums">
+            <p className="text-mist text-xs tabular-nums">
               {index + 1} / {slides.length}
             </p>
             <button
               type="button"
               onClick={() => go(1)}
               disabled={last}
-              className="bg-gold text-ink hover:bg-gold-deep disabled:bg-night-2 disabled:text-cream-2/40 rounded-2xl px-4 py-3 text-sm font-medium shadow-[0_8px_22px_-10px_rgb(242_193_78/0.5)] transition-colors disabled:shadow-none"
+              className="bg-teal text-ink hover:bg-teal-deep disabled:bg-kelp disabled:text-mist/40 cursor-pointer rounded-2xl px-4 py-3 text-sm font-medium shadow-[0_8px_22px_-10px_rgb(46_196_182/0.45)] transition-colors disabled:cursor-not-allowed disabled:shadow-none"
             >
               {last ? "Fin" : "Siguiente"}
             </button>

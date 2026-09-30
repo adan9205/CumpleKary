@@ -83,7 +83,7 @@ export function YearPage() {
   if (gate === "missing") {
     return (
       <div className="screen flex flex-col items-center justify-center text-center">
-        <p className="text-cream-2 text-sm">Esta edición no existe.</p>
+        <p className="text-mist text-sm">Esta edición no existe.</p>
       </div>
     );
   }
@@ -104,7 +104,7 @@ export function YearPage() {
   if (!edition || !edition.ok) {
     return (
       <div className="screen flex items-center justify-center">
-        <p className="text-cream-2 text-sm">No se pudo abrir esta edición.</p>
+        <p className="text-mist text-sm">No se pudo abrir esta edición.</p>
       </div>
     );
   }

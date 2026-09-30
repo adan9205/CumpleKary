@@ -1,34 +1,52 @@
 @import "tailwindcss";
 
 /*
-  Palette: a warm night celebration.
-  Roles (all pairs verified >= 7:1 on their intended surface):
-    night    canvas
-    night-2  elevated surface (inputs, cards, modal)
-    wine     deep rose atmosphere (glows, borders)
-    rose     secondary text on dark, soft accents
-    gold     primary action, focus, finale
-    cream    primary text
-    cream-2  secondary text (rose-tinted, never gray)
-    ember    error text
-    ink      text on gold
+  Palette: Illaoi / Nagakabouros — abyss, bronze, stone.
+  Roles (pairs aimed >= 7:1 on intended surfaces):
+    abyss     canvas
+    kelp      elevated surface
+    moss      hover, rings
+    foam      primary text
+    mist      secondary text, labels
+    bronze    kintsugi veins, photo rings
+    copper    metal highlight
+    teal      interactive accent
+    teal-deep CTA hover
+    ember     error
+    ink       text on teal
+    stone     texture only, not small text
+  Aliases night/rose/gold/cream keep /admin classNames working.
 */
 @theme {
-  --color-night: #1a0d17;
-  --color-night-2: #2a1424;
-  --color-wine: #6b1e3f;
-  --color-rose: #f2a0b8;
-  --color-gold: #f2c14e;
-  --color-gold-deep: #c8922a;
-  --color-cream: #fbf1e6;
-  --color-cream-2: #d8b9c5;
+  --color-abyss: #071410;
+  --color-kelp: #0f241c;
+  --color-moss: #1a3d32;
+  --color-foam: #e6f0ea;
+  --color-mist: #a8c4b8;
+  --color-bronze: #b87333;
+  --color-copper: #c4894a;
+  --color-teal: #2ec4b6;
+  --color-teal-deep: #1a8f86;
   --color-ember: #ffb4a8;
-  --color-ink: #2b1406;
+  --color-ink: #04211c;
+  --color-stone: #8b9590;
+
+  --color-night: #071410;
+  --color-night-2: #0f241c;
+  --color-wine: #1a3d32;
+  --color-rose: #a8c4b8;
+  --color-gold: #2ec4b6;
+  --color-gold-deep: #1a8f86;
+  --color-cream: #e6f0ea;
+  --color-cream-2: #a8c4b8;
+
+  --font-display: "Metamorphous", "Palatino Linotype", Palatino, serif;
+  --font-ui: "Source Sans 3", "Segoe UI", sans-serif;
 }
 
 :root {
   color-scheme: dark;
-  accent-color: var(--color-gold);
+  accent-color: var(--color-teal);
   --safe-t: env(safe-area-inset-top, 0px);
   --safe-b: env(safe-area-inset-bottom, 0px);
   --safe-l: env(safe-area-inset-left, 0px);
@@ -36,22 +54,22 @@
 }
 
 ::selection {
-  background: var(--color-gold);
+  background: var(--color-teal);
   color: var(--color-ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-gold);
+  outline: 2px solid var(--color-teal);
   outline-offset: 3px;
 }
 
 input {
-  caret-color: var(--color-gold);
+  caret-color: var(--color-teal);
 }
 
 input::placeholder {
-  color: var(--color-cream-2);
-  opacity: 0.7;
+  color: var(--color-mist);
+  opacity: 0.75;
 }
 
 html,
@@ -63,32 +81,78 @@ body,
 
 body {
   margin: 0;
-  font-family:
-    "Iowan Old Style",
-    "Palatino Linotype",
-    Palatino,
-    "Book Antiqua",
-    Georgia,
-    serif;
-  background: var(--color-night);
-  color: var(--color-cream);
+  font-family: var(--font-ui);
+  background: var(--color-abyss);
+  color: var(--color-foam);
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Night-celebration canvas: warm rose glow above, ember glow below. */
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Stone grain + shallow waves. CSS/SVG only. */
 .night-sky {
   background:
     radial-gradient(
-      120% 70% at 50% -10%,
-      rgb(107 30 63 / 0.75) 0%,
-      rgb(107 30 63 / 0) 60%
+      120% 70% at 50% -8%,
+      rgb(46 196 182 / 0.12) 0%,
+      rgb(46 196 182 / 0) 55%
     ),
     radial-gradient(
-      80% 50% at 85% 105%,
-      rgb(200 146 42 / 0.28) 0%,
-      rgb(200 146 42 / 0) 60%
+      90% 55% at 12% 108%,
+      rgb(184 115 51 / 0.22) 0%,
+      rgb(184 115 51 / 0) 58%
     ),
-    var(--color-night);
+    radial-gradient(
+      70% 40% at 92% 0%,
+      rgb(26 61 50 / 0.7) 0%,
+      rgb(26 61 50 / 0) 50%
+    ),
+    var(--color-abyss);
+}
+
+.night-sky::before,
+.stone-veil::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.42;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200' preserveAspectRatio='none'%3E%3Cpath fill='none' stroke='%238b9590' stroke-opacity='0.22' stroke-width='1.2' d='M0 140 Q80 120 160 138 T320 130 T400 145'/%3E%3Cpath fill='none' stroke='%232ec4b6' stroke-opacity='0.1' stroke-width='1' d='M0 160 Q100 148 200 162 T400 158'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='80' height='80' filter='url(%23n)' opacity='0.45'/%3E%3C/svg%3E");
+  background-size: 100% 42%, 180px 180px;
+  background-repeat: no-repeat, repeat;
+  background-position: bottom, 0 0;
+  mix-blend-mode: overlay;
+}
+
+.night-sky,
+.stone-veil {
+  position: relative;
+}
+
+.kintsugi {
+  border: 1px solid color-mix(in srgb, var(--color-bronze) 70%, var(--color-moss));
+  background-color: color-mix(in srgb, var(--color-kelp) 92%, black);
+  background-image:
+    linear-gradient(
+      118deg,
+      transparent 38%,
+      rgb(184 115 51 / 0.28) 39.5%,
+      rgb(196 137 74 / 0.12) 41%,
+      transparent 43%
+    ),
+    linear-gradient(
+      205deg,
+      transparent 58%,
+      rgb(184 115 51 / 0.2) 60%,
+      transparent 63%
+    );
+  box-shadow:
+    0 12px 28px -14px rgb(0 0 0 / 0.72),
+    inset 0 1px 0 rgb(230 240 234 / 0.06);
 }
 
 button,
@@ -128,6 +192,16 @@ input {
   }
 }
 
+@keyframes tentacle-sway {
+  0%,
+  100% {
+    transform: rotate(-2.2deg) translateY(0);
+  }
+  50% {
+    transform: rotate(2.4deg) translateY(3px);
+  }
+}
+
 .anim-fade {
   animation: fade-up 0.7s ease both;
 }
@@ -137,7 +211,29 @@ input {
 }
 
 .tick {
+  font-family: var(--font-display);
+  font-variant-numeric: tabular-nums;
   animation: soft-pulse 2.4s ease-in-out infinite;
+}
+
+.tentacle-sway {
+  transform-origin: 50% 100%;
+  animation: tentacle-sway 6.4s ease-in-out infinite;
+}
+
+.tentacle-sway-slow {
+  transform-origin: 20% 100%;
+  animation: tentacle-sway 8.2s ease-in-out infinite reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tick,
+  .tentacle-sway,
+  .tentacle-sway-slow,
+  .anim-fade,
+  .anim-cat {
+    animation: none;
+  }
 }
 
 .screen {
@@ -147,4 +243,25 @@ input {
   padding-bottom: calc(1.25rem + var(--safe-b));
   padding-left: calc(1.25rem + var(--safe-l));
   padding-right: calc(1.25rem + var(--safe-r));
+}
+
+.illaoi-wash {
+  pointer-events: none;
+  position: absolute;
+  inset: auto 0 0;
+  height: 42%;
+  object-fit: cover;
+  object-position: center bottom;
+  opacity: 0.28;
+  mask-image: linear-gradient(to top, black 20%, transparent 95%);
+}
+
+.illaoi-idol-faint {
+  pointer-events: none;
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  width: min(28vw, 7.5rem);
+  transform: translateX(-50%);
+  opacity: 0.14;
 }
