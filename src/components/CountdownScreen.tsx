@@ -95,7 +95,7 @@ export function CountdownScreen({
         className="illaoi-idol-faint"
       />
       <Tentacles intensity={intensity} />
-      <div className="anim-fade relative z-10 w-full max-w-md text-center lg:max-w-xl">
+      <div className="anim-fade relative z-10 mb-16 w-full max-w-md text-center lg:mb-24 lg:max-w-xl">
         <h1 className="font-display text-foam text-3xl lg:text-5xl">Falta poco</h1>
         <button
           type="button"
@@ -122,10 +122,10 @@ export function CountdownScreen({
             </div>
           ))}
         </button>
-        <div className="mt-12">
+        <div className="mt-8">
           <TimezoneNotice timeZone={edition.timeZone} />
         </div>
-        <p className="text-mist/70 mt-6 text-xs tracking-[0.3em]">
+        <p className="text-mist/70 mt-4 text-xs tracking-[0.3em]">
           {edition.year}
         </p>
         {simulated ? (
