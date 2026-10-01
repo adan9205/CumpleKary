@@ -18,12 +18,12 @@ export const edition2026: EditionConfig = {
     "Para este cumpleaños no quiero decirte que tienes que convertirte en alguien diferente. Solo quiero que sigas descubriendo todo lo que eres capaz de hacer. Que cuando llegue algo difícil recuerdes que ya has superado cosas que alguna vez parecían complicadas. Y que, aunque cambies de camino, de objetivo o de reto, nunca dejes de intentar descubrir hasta dónde puedes llegar."
   ],
   gift1: {
-    imageSrc: "/assets/editions/2026/ticket.svg",
+    imageSrc: "/assets/editions/2026/ticket.png",
     caption:
       "Un vale sin caducidad, el cual podrá ser canjeado en cualquier momento.",
   },
   gift2: {
-    imageSrc: "/assets/editions/2026/soon.svg",
+    imageSrc: "/assets/editions/2026/soon.png",
     caption:
       "Esta sorpresa aún se encuentra en proceso y en cuanto esté se actualizará.",
   },

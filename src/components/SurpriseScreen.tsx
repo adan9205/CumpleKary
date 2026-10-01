@@ -252,11 +252,11 @@ export function SurpriseScreen({ year, surprise }: Props) {
             ) : null}
 
             {slide.kind === "gift" ? (
-              <figure className="anim-fade w-full max-w-md text-center">
+              <figure className="anim-fade w-full max-w-5xl text-center">
                 <img
                   src={slide.imageSrc}
                   alt=""
-                  className="kintsugi mx-auto max-h-[50dvh] w-full rounded-3xl object-contain p-2"
+                  className="mx-auto block h-auto max-h-[62dvh] w-auto max-w-full object-contain shadow-[0_18px_50px_-18px_rgb(0_0_0/0.7)]"
                 />
                 <figcaption className="text-mist mt-5 text-sm leading-relaxed text-pretty">
                   {slide.caption}
