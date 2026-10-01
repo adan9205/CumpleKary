@@ -8,7 +8,7 @@ export type EditionConfig = {
   timeZone: string;
   photoSrc: string;
   photoAlt: string;
-  paragraphs: [string, string, string, string, string];
+  paragraphs: [string, string, string, string, string, string, string];
   gift1: { imageSrc: string; caption: string };
   gift2: { imageSrc: string; caption: string };
   youtubeId: string;
