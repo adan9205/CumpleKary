@@ -29,6 +29,7 @@ export function AdminPage() {
   const [authed, setAuthed] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [year, setYear] = useState(2026);
   const [years, setYears] = useState<number[]>([2026]);
   const [total, setTotal] = useState(0);
@@ -38,7 +39,13 @@ export function AdminPage() {
 
   useEffect(() => {
     fetchAdminSession()
-      .then((s) => setAuthed(Boolean(s.authenticated && s.admin)))
+      .then((s) => {
+        const ok = Boolean(s.authenticated && s.admin);
+        if (ok) {
+          setLoading(true);
+        }
+        setAuthed(ok);
+      })
       .catch(() => setAuthed(false));
   }, []);
 
@@ -46,14 +53,31 @@ export function AdminPage() {
     if (!authed) {
       return;
     }
+    let cancelled = false;
+    setLoading(true);
     fetchAdminVisits(year)
       .then((data) => {
+        if (cancelled) {
+          return;
+        }
         setVisits(data.visits);
         setTotal(data.total);
         setYears(data.years);
         setYear(data.year);
       })
-      .catch(() => setError("No se pudieron cargar las visitas."));
+      .catch(() => {
+        if (!cancelled) {
+          setError("No se pudieron cargar las visitas.");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      });
+    return () => {
+      cancelled = true;
+    };
   }, [authed, year]);
 
   async function onLogin(event: FormEvent) {
@@ -61,6 +85,7 @@ export function AdminPage() {
     setError("");
     try {
       await adminLogin(password);
+      setLoading(true);
       setAuthed(true);
     } catch (err) {
       const message = err instanceof Error ? err.message : "";
@@ -74,22 +99,28 @@ export function AdminPage() {
 
   return (
     <div className="screen mx-auto w-full max-w-3xl">
-      <h1 className="text-xl">Admin</h1>
-      <p className="mt-1 text-xs text-cream-2">noindex</p>
+      <h1 className="font-display text-foam text-xl">Bitácora</h1>
 
       {!authed ? (
-        <form onSubmit={onLogin} className="mt-10 max-w-sm space-y-4">
+        <form onSubmit={onLogin} className="mt-10 max-w-sm">
+          <label htmlFor="admin-password" className="text-mist block text-sm">
+            Contraseña
+          </label>
           <input
+            id="admin-password"
             type="password"
+            autoComplete="current-password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full rounded-2xl border-rose/25 bg-night-2 text-cream focus:border-gold border px-4 py-3 outline-none focus-visible:outline-0"
-            placeholder="ADMIN_PASSWORD"
+            className="border-bronze/40 bg-kelp text-foam focus:border-teal mt-3 w-full rounded-2xl border px-4 py-3"
           />
-          {error ? <p className="text-sm text-ember">{error}</p> : null}
+          <p className="text-ember mt-3 min-h-5 text-sm" role="alert">
+            {error}
+          </p>
           <button
             type="submit"
-            className="w-full rounded-2xl bg-gold text-ink hover:bg-gold-deep py-3 font-medium transition-colors"
+            disabled={!password}
+            className="bg-teal text-ink hover:bg-teal-deep disabled:bg-kelp disabled:text-mist mt-3 w-full cursor-pointer rounded-2xl py-3 font-medium transition-colors disabled:cursor-not-allowed"
           >
             Entrar
           </button>
@@ -123,23 +154,32 @@ export function AdminPage() {
                 </tr>
               </thead>
               <tbody>
-                {visits.map((row) => (
-                  <tr key={row.id} className="border-t border-rose/10">
-                    <td className="px-3 py-2 whitespace-nowrap">
-                      {row.visitedAt.replace("T", " ").slice(0, 19)}
-                    </td>
-                    <td className="px-3 py-2">{row.timeZone}</td>
-                    <td className="px-3 py-2">{place(row)}</td>
-                    <td className="px-3 py-2">{deviceHint(row.userAgent)}</td>
-                  </tr>
-                ))}
-                {visits.length === 0 ? (
+                {loading ? (
                   <tr>
-                    <td className="px-3 py-6 text-cream-2" colSpan={4}>
+                    <td className="text-mist px-3 py-6" colSpan={4}>
+                      Un momento
+                    </td>
+                  </tr>
+                ) : null}
+                {!loading && visits.length === 0 ? (
+                  <tr>
+                    <td className="text-mist px-3 py-6" colSpan={4}>
                       Sin visitas aún.
                     </td>
                   </tr>
                 ) : null}
+                {!loading
+                  ? visits.map((row) => (
+                      <tr key={row.id} className="border-t border-rose/10">
+                        <td className="px-3 py-2 whitespace-nowrap">
+                          {row.visitedAt.replace("T", " ").slice(0, 19)}
+                        </td>
+                        <td className="px-3 py-2">{row.timeZone}</td>
+                        <td className="px-3 py-2">{place(row)}</td>
+                        <td className="px-3 py-2">{deviceHint(row.userAgent)}</td>
+                      </tr>
+                    ))
+                  : null}
               </tbody>
             </table>
           </div>

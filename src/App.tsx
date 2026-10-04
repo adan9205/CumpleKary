@@ -8,7 +8,7 @@ export function App() {
   useEffect(() => {
     const block = (event: Event) => {
       const target = event.target as HTMLElement | null;
-      if (target?.closest("input, textarea")) {
+      if (!target?.closest("img, svg, video, audio, canvas")) {
         return;
       }
       event.preventDefault();

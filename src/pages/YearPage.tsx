@@ -77,33 +77,28 @@ export function YearPage() {
   }
 
   if (gate === "load") {
-    return <div className="screen" />;
+    return (
+      <div className="screen night-sky flex items-center justify-center">
+        <p className="text-mist text-sm">Un momento</p>
+      </div>
+    );
   }
 
   if (gate === "missing") {
     return (
-      <div className="screen flex flex-col items-center justify-center text-center">
+      <div className="screen night-sky flex flex-col items-center justify-center text-center">
         <p className="text-mist text-sm">Esta edición no existe.</p>
       </div>
     );
   }
 
   if (gate === "password") {
-    return (
-      <div>
-        {error ? (
-          <p className="text-ember pt-[var(--safe-t)] text-center text-xs">
-            {error}
-          </p>
-        ) : null}
-        <PasswordScreen year={year} onUnlock={onUnlock} />
-      </div>
-    );
+    return <PasswordScreen year={year} notice={error} onUnlock={onUnlock} />;
   }
 
   if (!edition || !edition.ok) {
     return (
-      <div className="screen flex items-center justify-center">
+      <div className="screen night-sky flex items-center justify-center">
         <p className="text-mist text-sm">No se pudo abrir esta edición.</p>
       </div>
     );

@@ -11,10 +11,10 @@ export function AudioBar({ paused, volume, onToggle, onVolume }: Props) {
       <button
         type="button"
         onClick={onToggle}
-        className="text-teal min-w-16 cursor-pointer text-left text-sm font-medium"
+        className="text-teal min-w-20 cursor-pointer text-left text-sm font-medium"
         aria-pressed={!paused}
       >
-        {paused ? "Música" : "Pausa"}
+        {paused ? "Reanudar" : "Pausar"}
       </button>
       <input
         type="range"

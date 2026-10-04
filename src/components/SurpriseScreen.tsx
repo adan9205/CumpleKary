@@ -98,7 +98,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
 
   useEffect(() => {
     function onKey(event: KeyboardEvent) {
-      if (!started) {
+      if (!started || help) {
         return;
       }
       if (event.key === "ArrowRight") {
@@ -110,7 +110,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
     }
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [go, started]);
+  }, [go, help, started]);
 
   useEffect(() => {
     if (slide?.kind !== "finale") {
@@ -378,7 +378,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
                   <div className="kintsugi relative aspect-video overflow-hidden rounded-3xl bg-black">
                     <iframe
                       ref={iframeRef}
-                      title="Video"
+                      title="Video de cumpleaños"
                       className="absolute inset-0 h-full w-full"
                       onLoad={listenToPlayer}
                       src={`https://www.youtube-nocookie.com/embed/${surprise.youtubeId}?autoplay=1&playsinline=0&fs=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
@@ -408,7 +408,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
               type="button"
               onClick={() => go(-1)}
               disabled={index === 0}
-              className="border-bronze/40 text-foam hover:bg-kelp disabled:border-moss/40 disabled:text-mist/40 cursor-pointer rounded-2xl border px-4 py-3 text-sm transition-colors disabled:cursor-not-allowed"
+              className="border-bronze/40 text-foam hover:bg-kelp disabled:border-moss/40 disabled:text-mist cursor-pointer rounded-2xl border px-4 py-3 text-sm transition-colors disabled:cursor-not-allowed"
             >
               Atrás
             </button>
@@ -419,7 +419,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
               type="button"
               onClick={() => go(1)}
               disabled={last}
-              className="bg-teal text-ink hover:bg-teal-deep disabled:bg-kelp disabled:text-mist/40 cursor-pointer rounded-2xl px-4 py-3 text-sm font-medium shadow-[0_8px_22px_-10px_rgb(46_196_182/0.45)] transition-colors disabled:cursor-not-allowed disabled:shadow-none"
+              className="bg-teal text-ink hover:bg-teal-deep disabled:bg-kelp disabled:text-mist cursor-pointer rounded-2xl px-4 py-3 text-sm font-medium shadow-[0_8px_22px_-10px_rgb(46_196_182/0.45)] transition-colors disabled:cursor-not-allowed disabled:shadow-none"
             >
               {last ? "Fin" : "Siguiente"}
             </button>

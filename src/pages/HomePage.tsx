@@ -12,7 +12,11 @@ export function HomePage() {
   }, []);
 
   if (year == null) {
-    return <div className="screen" />;
+    return (
+      <div className="screen night-sky flex items-center justify-center">
+        <p className="text-mist text-sm">Un momento</p>
+      </div>
+    );
   }
 
   return <Navigate to={`/${year}`} replace />;

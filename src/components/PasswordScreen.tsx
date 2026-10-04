@@ -4,10 +4,11 @@ import { TimezoneNotice } from "./TimezoneNotice";
 
 type Props = {
   year: number;
+  notice?: string;
   onUnlock: (password: string) => Promise<void>;
 };
 
-export function PasswordScreen({ year, onUnlock }: Props) {
+export function PasswordScreen({ year, notice = "", onUnlock }: Props) {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -45,25 +46,28 @@ export function PasswordScreen({ year, onUnlock }: Props) {
         <p className="text-mist mt-3 text-sm">
           Escribe la palabra que ya conoces.
         </p>
+        <label htmlFor="gate-password" className="text-mist mt-8 block text-sm">
+          Contraseña
+        </label>
         <input
+          id="gate-password"
           type="password"
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="border-bronze/40 bg-kelp text-foam focus:border-teal mt-8 w-full rounded-2xl border px-4 py-3 text-center outline-none transition-colors focus-visible:outline-0"
-          placeholder="Contraseña"
+          className="border-bronze/40 bg-kelp text-foam focus:border-teal mt-3 w-full rounded-2xl border px-4 py-3 text-center transition-colors"
         />
         <p
           className="text-ember mt-3 min-h-5 text-sm"
           role="alert"
           aria-live="polite"
         >
-          {error}
+          {error || notice}
         </p>
         <button
           type="submit"
           disabled={busy || !password}
-          className="bg-teal text-ink hover:bg-teal-deep disabled:bg-kelp disabled:text-mist/60 mt-3 w-full cursor-pointer rounded-2xl py-3 font-medium shadow-[0_10px_28px_-10px_rgb(46_196_182/0.45)] transition-colors disabled:shadow-none"
+          className="bg-teal text-ink hover:bg-teal-deep disabled:bg-kelp disabled:text-mist mt-3 w-full cursor-pointer rounded-2xl py-3 font-medium shadow-[0_10px_28px_-10px_rgb(46_196_182/0.45)] transition-colors disabled:cursor-not-allowed disabled:shadow-none"
         >
           {busy ? "Abriendo…" : "Entrar"}
         </button>

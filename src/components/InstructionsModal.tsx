@@ -1,9 +1,33 @@
+import { useEffect, useRef } from "react";
+
 type Props = {
   open: boolean;
   onClose: () => void;
 };
 
 export function InstructionsModal({ open, onClose }: Props) {
+  const closeRef = useRef<HTMLButtonElement | null>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    const previous = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+    function onKey(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        onCloseRef.current();
+      }
+    }
+    window.addEventListener("keydown", onKey);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      previous?.focus();
+    };
+  }, [open]);
+
   if (!open) {
     return null;
   }
@@ -13,6 +37,11 @@ export function InstructionsModal({ open, onClose }: Props) {
       role="dialog"
       aria-modal="true"
       aria-labelledby="instructions-title"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
     >
       <div className="anim-fade kintsugi w-full max-w-sm rounded-3xl px-5 py-6 pb-[max(1.5rem,var(--safe-b))]">
         <div className="flex items-start gap-3">
@@ -35,6 +64,7 @@ export function InstructionsModal({ open, onClose }: Props) {
           </div>
         </div>
         <button
+          ref={closeRef}
           type="button"
           onClick={onClose}
           className="bg-teal text-ink hover:bg-teal-deep mt-6 w-full cursor-pointer rounded-2xl py-3 font-medium transition-colors"

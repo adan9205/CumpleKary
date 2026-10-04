@@ -180,16 +180,6 @@ input {
   }
 }
 
-@keyframes soft-pulse {
-  0%,
-  100% {
-    opacity: 0.55;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
 @keyframes cat-in {
   from {
     opacity: 0;
@@ -243,7 +233,6 @@ input {
 .tick {
   font-family: var(--font-display);
   font-variant-numeric: tabular-nums;
-  animation: soft-pulse 2.4s ease-in-out infinite;
 }
 
 .tentacle-sway {
@@ -257,7 +246,6 @@ input {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tick,
   .tentacle-sway,
   .tentacle-sway-slow,
   .anim-fade,
@@ -265,6 +253,25 @@ input {
   .anim-cat {
     animation: none;
   }
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-moss) var(--color-abyss);
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--color-abyss);
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--color-moss);
+  border-radius: 999px;
 }
 
 .screen {
