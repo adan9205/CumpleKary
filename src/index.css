@@ -87,6 +87,15 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+img,
+svg,
+video,
+audio {
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  user-select: none;
+}
+
 .font-display {
   font-family: var(--font-display);
 }

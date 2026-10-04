@@ -16,6 +16,18 @@ export function publicEdition(
   };
 }
 
+/** Accepts a bare id or any watch / youtu.be / shorts / embed URL. */
+export function youtubeId(raw: string): string {
+  const value = raw.trim();
+  if (/^[\w-]{11}$/.test(value)) {
+    return value;
+  }
+  const match = value.match(
+    /(?:v=|youtu\.be\/|\/shorts\/|\/embed\/|\/live\/)([\w-]{11})/,
+  );
+  return match?.[1] ?? "";
+}
+
 export function surprisePayload(config: EditionConfig): SurprisePayload {
   return {
     photoSrc: config.photoSrc,
@@ -23,7 +35,7 @@ export function surprisePayload(config: EditionConfig): SurprisePayload {
     paragraphs: [...config.paragraphs],
     gift1: { ...config.gift1 },
     gift2: { ...config.gift2 },
-    youtubeId: config.youtubeId,
+    youtubeId: youtubeId(config.youtubeId),
     songSrc: config.songSrc,
     finale: config.finale,
     cats: [...config.cats],

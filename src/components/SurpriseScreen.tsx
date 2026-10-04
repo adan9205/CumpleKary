@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import confetti from "canvas-confetti";
 import type { SurprisePayload } from "../../shared/types";
 import { AudioBar } from "./AudioBar";
@@ -12,17 +13,32 @@ type Props = {
 type Slide =
   | { kind: "photo" }
   | { kind: "text"; text: string; cat: string }
-  | { kind: "gift"; imageSrc: string; caption: string }
+  | { kind: "gift"; imageSrc: string; caption: string; downloadName?: string }
   | { kind: "video" }
   | { kind: "finale" };
+
+type YouTubeMessage = {
+  event?: string;
+  info?: number | { playerState?: number } | null;
+};
+
+type FullscreenTarget = HTMLIFrameElement & {
+  webkitRequestFullscreen?: () => Promise<void> | void;
+};
 
 function instructionsKey(year: number) {
   return `instructions_seen_${year}`;
 }
 
+function extensionOf(src: string) {
+  return src.match(/\.[a-z0-9]+$/i)?.[0] ?? ".png";
+}
+
 export function SurpriseScreen({ year, surprise }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const videoWrapRef = useRef<HTMLDivElement | null>(null);
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const maximizedRef = useRef(false);
   const touchX = useRef<number | null>(null);
   const [started, setStarted] = useState(false);
   const [paused, setPaused] = useState(true);
@@ -39,27 +55,37 @@ export function SurpriseScreen({ year, surprise }: Props) {
     return [
       { kind: "photo" },
       ...texts,
-      { kind: "gift", imageSrc: surprise.gift1.imageSrc, caption: surprise.gift1.caption },
+      {
+        kind: "gift",
+        imageSrc: surprise.gift1.imageSrc,
+        caption: surprise.gift1.caption,
+        downloadName: `vale-${year}${extensionOf(surprise.gift1.imageSrc)}`,
+      },
       { kind: "gift", imageSrc: surprise.gift2.imageSrc, caption: surprise.gift2.caption },
       { kind: "video" },
       { kind: "finale" },
     ];
-  }, [surprise]);
+  }, [surprise, year]);
 
   const slide = slides[index] ?? slides[0];
   const last = index === slides.length - 1;
 
   const go = useCallback(
     (dir: -1 | 1) => {
-      setIndex((current) => {
-        const next = current + dir;
-        if (next < 0 || next >= slides.length) {
-          return current;
-        }
-        return next;
-      });
+      const next = index + dir;
+      if (next < 0 || next >= slides.length) {
+        return;
+      }
+      maximizedRef.current = false;
+      if (slides[next]?.kind !== "video") {
+        setIndex(next);
+        return;
+      }
+      // Fullscreen needs the user gesture that is still active right here.
+      flushSync(() => setIndex(next));
+      maximizeVideo();
     },
-    [slides.length],
+    [index, slides],
   );
 
   useEffect(() => {
@@ -103,28 +129,79 @@ export function SurpriseScreen({ year, surprise }: Props) {
   }, [slide?.kind]);
 
   useEffect(() => {
+    if (slide?.kind !== "video") {
+      return;
+    }
+    const audio = audioRef.current;
+    if (!audio || audio.paused) {
+      return;
+    }
+    audio.pause();
+    setPaused(true);
+    return () => {
+      void audio
+        .play()
+        .then(() => setPaused(false))
+        .catch(() => setPaused(true));
+    };
+  }, [slide?.kind]);
+
+  useEffect(() => {
     function onMessage(event: MessageEvent) {
-      let data: { event?: string; info?: number } | null = null;
+      if (!/^https:\/\/(www\.)?youtube(-nocookie)?\.com$/.test(event.origin)) {
+        return;
+      }
+      let data: YouTubeMessage | null = null;
       if (typeof event.data === "string") {
         try {
-          data = JSON.parse(event.data) as { event?: string; info?: number };
+          data = JSON.parse(event.data) as YouTubeMessage;
         } catch {
           data = null;
         }
       } else if (typeof event.data === "object" && event.data) {
-        data = event.data as { event?: string; info?: number };
+        data = event.data as YouTubeMessage;
       }
-      if (data?.event === "onStateChange" && data.info === 1) {
-        const audio = audioRef.current;
-        if (audio && !audio.paused) {
-          audio.pause();
-          setPaused(true);
-        }
+      const playing =
+        (data?.event === "onStateChange" && data.info === 1) ||
+        (data?.event === "infoDelivery" &&
+          typeof data.info === "object" &&
+          data.info?.playerState === 1);
+      if (!playing) {
+        return;
       }
+      const audio = audioRef.current;
+      if (audio && !audio.paused) {
+        audio.pause();
+        setPaused(true);
+      }
+      maximizeVideo();
     }
     window.addEventListener("message", onMessage);
     return () => window.removeEventListener("message", onMessage);
   }, []);
+
+  function maximizeVideo() {
+    const frame = iframeRef.current as FullscreenTarget | null;
+    if (!frame || maximizedRef.current || document.fullscreenElement) {
+      return;
+    }
+    maximizedRef.current = true;
+    const request = frame.requestFullscreen ?? frame.webkitRequestFullscreen;
+    void Promise.resolve(request?.call(frame)).catch(() => {
+      maximizedRef.current = false;
+    });
+  }
+
+  function listenToPlayer() {
+    const target = iframeRef.current?.contentWindow;
+    if (!target) {
+      return;
+    }
+    const send = (message: object) =>
+      target.postMessage(JSON.stringify({ id: 1, channel: "widget", ...message }), "*");
+    send({ event: "listening" });
+    send({ event: "command", func: "addEventListener", args: ["onStateChange"] });
+  }
 
   async function openSurprise() {
     const audio = audioRef.current;
@@ -261,13 +338,34 @@ export function SurpriseScreen({ year, surprise }: Props) {
                 <figcaption className="text-mist mt-5 text-sm leading-relaxed text-pretty">
                   {slide.caption}
                 </figcaption>
+                {slide.downloadName ? (
+                  <a
+                    href={slide.imageSrc}
+                    download={slide.downloadName}
+                    className="border-bronze/50 text-foam hover:bg-kelp mt-5 inline-flex cursor-pointer items-center gap-2 rounded-full border px-6 py-3 text-sm font-medium transition-colors"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      className="h-4 w-4"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14" />
+                    </svg>
+                    Descargar vale
+                  </a>
+                ) : null}
               </figure>
             ) : null}
 
             {slide.kind === "video" ? (
               <div
                 ref={videoWrapRef}
-                className="anim-fade w-full max-w-lg"
+                className="anim-fade w-full max-w-lg lg:max-w-3xl"
                 onPointerDown={() => {
                   const audio = audioRef.current;
                   if (audio && !audio.paused) {
@@ -279,9 +377,11 @@ export function SurpriseScreen({ year, surprise }: Props) {
                 {surprise.youtubeId ? (
                   <div className="kintsugi relative aspect-video overflow-hidden rounded-3xl bg-black">
                     <iframe
+                      ref={iframeRef}
                       title="Video"
                       className="absolute inset-0 h-full w-full"
-                      src={`https://www.youtube-nocookie.com/embed/${surprise.youtubeId}?playsinline=1&rel=0&enablejsapi=1`}
+                      onLoad={listenToPlayer}
+                      src={`https://www.youtube-nocookie.com/embed/${surprise.youtubeId}?autoplay=1&playsinline=0&fs=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(window.location.origin)}`}
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
                     />
