@@ -27,7 +27,7 @@ export const edition2026: EditionConfig = {
     caption:
       "Esta sorpresa aún se encuentra en proceso y en cuanto esté se actualizará.",
   },
-  youtubeId: "",
+  youtubeId: "https://www.youtube.com/watch?v=9Kr8QT2EMT0",
   songSrc: "/assets/editions/2026/song.mp3",
   finale: "Feliz cumpleaños 🎂!!!!",
   cats: [
