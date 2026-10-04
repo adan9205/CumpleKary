@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { flushSync } from "react-dom";
-import confetti from "canvas-confetti";
 import type { SurprisePayload } from "../../shared/types";
 import { AudioBar } from "./AudioBar";
+import { FinaleScene } from "./FinaleScene";
 import { InstructionsModal } from "./InstructionsModal";
+import { LetterSlide } from "./LetterSlide";
 
 type Props = {
   year: number;
@@ -45,6 +46,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
   const [volume, setVolume] = useState(0.7);
   const [index, setIndex] = useState(0);
   const [help, setHelp] = useState(false);
+  const [revealed, setRevealed] = useState<ReadonlySet<number>>(() => new Set());
 
   const slides = useMemo<Slide[]>(() => {
     const texts: Slide[] = surprise.paragraphs.map((text, i) => ({
@@ -70,8 +72,16 @@ export function SurpriseScreen({ year, surprise }: Props) {
   const slide = slides[index] ?? slides[0];
   const last = index === slides.length - 1;
 
+  const markRevealed = useCallback((i: number) => {
+    setRevealed((current) => (current.has(i) ? current : new Set(current).add(i)));
+  }, []);
+
   const go = useCallback(
     (dir: -1 | 1) => {
+      if (dir === 1 && slides[index]?.kind === "text" && !revealed.has(index)) {
+        markRevealed(index);
+        return;
+      }
       const next = index + dir;
       if (next < 0 || next >= slides.length) {
         return;
@@ -85,7 +95,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
       flushSync(() => setIndex(next));
       maximizeVideo();
     },
-    [index, slides],
+    [index, slides, revealed, markRevealed],
   );
 
   useEffect(() => {
@@ -113,23 +123,7 @@ export function SurpriseScreen({ year, surprise }: Props) {
   }, [go, help, started]);
 
   useEffect(() => {
-    if (slide?.kind !== "finale") {
-      return;
-    }
-    const burst = () =>
-      confetti({
-        particleCount: 80,
-        spread: 70,
-        origin: { y: 0.7 },
-        colors: ["#2ec4b6", "#b87333", "#e6f0ea", "#c4894a", "#0f241c"],
-      });
-    burst();
-    const id = window.setInterval(burst, 2200);
-    return () => window.clearInterval(id);
-  }, [slide?.kind]);
-
-  useEffect(() => {
-    if (slide?.kind !== "video") {
+    if (slide?.kind !== "video" && slide?.kind !== "finale") {
       return;
     }
     const audio = audioRef.current;
@@ -227,6 +221,39 @@ export function SurpriseScreen({ year, surprise }: Props) {
     setHelp(false);
   }
 
+  function silence() {
+    const audio = audioRef.current;
+    if (audio && !audio.paused) {
+      audio.pause();
+      setPaused(true);
+    }
+  }
+
+  async function celebrate() {
+    const audio = audioRef.current;
+    if (!audio) {
+      return;
+    }
+    audio.loop = true;
+    audio.volume = 0;
+    try {
+      await audio.play();
+      setPaused(false);
+    } catch {
+      setPaused(true);
+      return;
+    }
+    const start = performance.now();
+    const ramp = (now: number) => {
+      const p = Math.min(1, (now - start) / 1600);
+      audio.volume = volume * p;
+      if (p < 1) {
+        requestAnimationFrame(ramp);
+      }
+    };
+    requestAnimationFrame(ramp);
+  }
+
   async function toggleAudio() {
     const audio = audioRef.current;
     if (!audio) {
@@ -265,7 +292,14 @@ export function SurpriseScreen({ year, surprise }: Props) {
 
   return (
     <div className="screen night-sky relative flex flex-col overflow-hidden">
-      <audio ref={audioRef} src={surprise.songSrc} playsInline preload="none" />
+      <audio
+        ref={audioRef}
+        src={surprise.songSrc}
+        playsInline
+        preload="none"
+        onPlay={() => setPaused(false)}
+        onPause={() => setPaused(true)}
+      />
 
       {!started ? (
         <div className="anim-fade relative z-10 flex flex-1 flex-col items-center justify-center text-center">
@@ -312,20 +346,14 @@ export function SurpriseScreen({ year, surprise }: Props) {
             ) : null}
 
             {slide.kind === "text" ? (
-              <div className="anim-fade relative w-full max-w-lg px-2">
-                <p className="text-foam text-center text-lg leading-relaxed text-pretty sm:text-xl">
-                  {slide.text}
-                </p>
-                <img
-                  src={slide.cat}
-                  alt=""
-                  className={`kintsugi absolute w-14 rounded-xl opacity-80 sm:w-16 ${
-                    index % 2 === 0
-                      ? "-bottom-20 left-0"
-                      : "-top-20 right-0"
-                  }`}
-                />
-              </div>
+              <LetterSlide
+                key={index}
+                text={slide.text}
+                cat={slide.cat}
+                side={index % 2 === 1 ? "left" : "right"}
+                revealed={revealed.has(index)}
+                onRevealed={() => markRevealed(index)}
+              />
             ) : null}
 
             {slide.kind === "gift" ? (
@@ -395,11 +423,13 @@ export function SurpriseScreen({ year, surprise }: Props) {
             ) : null}
 
             {slide.kind === "finale" ? (
-              <div className="anim-fade text-center">
-                <p className="font-display text-foam text-4xl leading-snug text-balance sm:text-5xl">
-                  {surprise.finale}
-                </p>
-              </div>
+              <FinaleScene
+                finale={surprise.finale}
+                photoSrc={surprise.photoSrc}
+                photoAlt={surprise.photoAlt}
+                onSilence={silence}
+                onCelebrate={() => void celebrate()}
+              />
             ) : null}
           </div>
 
